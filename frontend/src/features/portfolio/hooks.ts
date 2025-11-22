@@ -10,7 +10,7 @@ export const usePortfolioOverview = () => {
   const assetsQuery = useQuery({ queryKey: ['assets'], queryFn: fetchAssets })
   const portfolioQuery = useQuery({ queryKey: ['portfolio'], queryFn: () => fetchPortfolio() })
 
-  const assetIds = portfolioQuery.data?.positions.map((position) => position.assetId) ?? []
+  const assetIds = portfolioQuery.data?.positions.map(position => position.assetId) ?? []
   const pricesQuery = useQuery({
     queryKey: ['prices', assetIds.sort().join('-')],
     queryFn: () => fetchPrices({ assets: assetIds }),
@@ -31,8 +31,14 @@ export const usePortfolioOverview = () => {
 
   const totalValue = positions.reduce((acc, position) => acc + position.value, 0)
 
-  const breakdownByAsset: BreakdownDatum[] = useMemo(() => getBreakdownByAsset(positions), [positions])
-  const breakdownByClass: BreakdownDatum[] = useMemo(() => getBreakdownByClass(positions), [positions])
+  const breakdownByAsset: BreakdownDatum[] = useMemo(
+    () => getBreakdownByAsset(positions),
+    [positions]
+  )
+  const breakdownByClass: BreakdownDatum[] = useMemo(
+    () => getBreakdownByClass(positions),
+    [positions]
+  )
 
   return {
     positions,
@@ -95,4 +101,3 @@ export const usePriceHistory = (assetIds: string[], range: TimeRange) => {
     enabled: assetIds.length > 0,
   })
 }
-

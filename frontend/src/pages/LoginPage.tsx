@@ -33,7 +33,8 @@ const LoginPage = () => {
           <p className="text-sm uppercase tracking-[0.3em] text-muted">Vega</p>
           <h1 className="mt-2 text-3xl font-semibold">Investor login</h1>
           <p className="mt-2 text-sm text-muted">
-            Use demo credentials <span className="font-mono text-accent">investor@vega.app / portfolio</span>
+            Use demo credentials{' '}
+            <span className="font-mono text-accent">investor@vega.app / portfolio</span>
           </p>
         </div>
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -43,7 +44,7 @@ const LoginPage = () => {
               type="email"
               className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white focus:border-accent focus:outline-none"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
               required
             />
           </label>
@@ -53,7 +54,7 @@ const LoginPage = () => {
               type="password"
               className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white focus:border-accent focus:outline-none"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={event => setPassword(event.target.value)}
               required
             />
           </label>
@@ -72,4 +73,3 @@ const LoginPage = () => {
 }
 
 export default LoginPage
-

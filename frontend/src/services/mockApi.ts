@@ -49,4 +49,3 @@ export async function fetchPrices(params?: PriceRequest): Promise<PricePoint[]> 
   }
   return response.json()
 }
-

@@ -13,5 +13,5 @@ export const formatDateLabel = (isoDate: string) => format(parseISO(isoDate), 'M
 
 export const formatFullDate = (isoDate: string) => format(parseISO(isoDate), 'MMM d, yyyy')
 
-export const formatRelativeTime = (isoDate: string) => formatDistanceToNowStrict(parseISO(isoDate), { addSuffix: true })
-
+export const formatRelativeTime = (isoDate: string) =>
+  formatDistanceToNowStrict(parseISO(isoDate), { addSuffix: true })

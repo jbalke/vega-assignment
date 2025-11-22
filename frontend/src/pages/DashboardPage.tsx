@@ -12,8 +12,16 @@ import { formatRelativeTime } from '../utils/format'
 import { buildHistoricalSeries } from '../utils/portfolio'
 
 const DashboardPage = () => {
-  const { positions, totalValue, breakdownByAsset, breakdownByClass, isLoading, error, refetch, lastUpdated } =
-    usePortfolioOverview()
+  const {
+    positions,
+    totalValue,
+    breakdownByAsset,
+    breakdownByClass,
+    isLoading,
+    error,
+    refetch,
+    lastUpdated,
+  } = usePortfolioOverview()
   const { user, logout } = useAuth()
 
   const [mode, setMode] = useState<'asset' | 'class'>('asset')
@@ -27,13 +35,15 @@ const DashboardPage = () => {
 
   const activeAssetIds = useMemo(() => {
     if (!positions.length) return []
-    if (!selectedId) return positions.map((position) => position.assetId)
+    if (!selectedId) return positions.map(position => position.assetId)
     if (mode === 'asset') {
-      return positions.filter((position) => position.assetId === selectedId).map((position) => position.assetId)
+      return positions
+        .filter(position => position.assetId === selectedId)
+        .map(position => position.assetId)
     }
     return positions
-      .filter((position) => position.class.toUpperCase() === selectedId.toUpperCase())
-      .map((position) => position.assetId)
+      .filter(position => position.class.toUpperCase() === selectedId.toUpperCase())
+      .map(position => position.assetId)
   }, [positions, selectedId, mode])
 
   const historyQuery = usePriceHistory(activeAssetIds, range)
@@ -47,17 +57,17 @@ const DashboardPage = () => {
             assetFilter: activeAssetIds,
           })
         : [],
-    [historyQuery.data, positions, activeAssetIds],
+    [historyQuery.data, positions, activeAssetIds]
   )
 
   const filteredAssetRows = useMemo(() => {
     if (mode !== 'asset' || !selectedId) return positions
-    return positions.filter((position) => position.assetId === selectedId)
+    return positions.filter(position => position.assetId === selectedId)
   }, [mode, positions, selectedId])
 
   const filteredClassRows = useMemo(() => {
     if (mode !== 'class' || !selectedId) return breakdownByClass
-    return breakdownByClass.filter((item) => item.id === selectedId)
+    return breakdownByClass.filter(item => item.id === selectedId)
   }, [mode, breakdownByClass, selectedId])
 
   const handleSelection = (id: string | null) => {
@@ -130,4 +140,3 @@ const DashboardPage = () => {
 }
 
 export default DashboardPage
-

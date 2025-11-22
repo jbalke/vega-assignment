@@ -51,4 +51,3 @@ export interface BreakdownDatum {
   allocation: number
   [key: string]: string | number
 }
-

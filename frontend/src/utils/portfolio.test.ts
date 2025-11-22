@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import type { Asset, PricePoint } from '../types/portfolio'
 
-import { buildHistoricalSeries, enrichPositions, getBreakdownByAsset, getBreakdownByClass } from './portfolio'
+import {
+  buildHistoricalSeries,
+  enrichPositions,
+  getBreakdownByAsset,
+  getBreakdownByClass,
+} from './portfolio'
 
 const assets: Asset[] = [
   { id: 'BTC', symbol: 'BTC', name: 'Bitcoin', class: 'crypto', currency: 'USD' },
@@ -23,7 +28,7 @@ describe('portfolio utilities', () => {
   it('enriches positions with price and allocation', () => {
     const enriched = enrichPositions({ positions, assets, prices })
     expect(enriched).toHaveLength(2)
-    const btc = enriched.find((entry) => entry.assetId === 'BTC')
+    const btc = enriched.find(entry => entry.assetId === 'BTC')
     expect(btc?.value).toBe(50000)
     expect(btc?.allocation).toBeCloseTo(50000 / (50000 + 8000))
   })
@@ -58,4 +63,3 @@ describe('portfolio utilities', () => {
     ])
   })
 })
-

@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [user])
 
   const login = useCallback(async (email: string, password: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 400))
+    await new Promise(resolve => setTimeout(resolve, 400))
     if (email === allowedUser.email && password === allowedUser.password) {
       setUser({ name: allowedUser.name, email: allowedUser.email })
       setError(null)
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       logout,
       error,
     }),
-    [user, login, logout, error],
+    [user, login, logout, error]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
@@ -82,4 +82,3 @@ export const useAuth = () => {
   }
   return context
 }
-

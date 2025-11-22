@@ -12,7 +12,13 @@ interface PositionsTableProps {
 const assetHeaders = ['Asset', 'Class', 'Quantity', 'Price', 'Value', 'Allocation']
 const classHeaders = ['Class', 'Holdings', 'Value', 'Allocation']
 
-const PositionsTable = ({ assetRows, classRows, mode, activeId, onSelect }: PositionsTableProps) => {
+const PositionsTable = ({
+  assetRows,
+  classRows,
+  mode,
+  activeId,
+  onSelect,
+}: PositionsTableProps) => {
   const rows = mode === 'asset' ? assetRows : classRows
 
   return (
@@ -37,7 +43,7 @@ const PositionsTable = ({ assetRows, classRows, mode, activeId, onSelect }: Posi
         <table className="w-full min-w-[600px] table-fixed border-collapse text-sm">
           <thead className="bg-white/5 text-left text-xs uppercase tracking-[0.2em] text-muted">
             <tr>
-              {(mode === 'asset' ? assetHeaders : classHeaders).map((header) => (
+              {(mode === 'asset' ? assetHeaders : classHeaders).map(header => (
                 <th key={header} className="px-6 py-3 font-medium">
                   {header}
                 </th>
@@ -46,7 +52,7 @@ const PositionsTable = ({ assetRows, classRows, mode, activeId, onSelect }: Posi
           </thead>
           <tbody>
             {mode === 'asset'
-              ? assetRows.map((row) => (
+              ? assetRows.map(row => (
                   <tr
                     key={row.id}
                     onClick={() => onSelect?.(activeId === row.assetId ? null : row.assetId)}
@@ -61,11 +67,13 @@ const PositionsTable = ({ assetRows, classRows, mode, activeId, onSelect }: Posi
                     <td className="px-6 py-4 capitalize text-muted">{row.class}</td>
                     <td className="px-6 py-4">{row.quantity.toLocaleString()}</td>
                     <td className="px-6 py-4">{formatCurrency(row.price)}</td>
-                    <td className="px-6 py-4 font-semibold text-white">{formatCurrency(row.value)}</td>
+                    <td className="px-6 py-4 font-semibold text-white">
+                      {formatCurrency(row.value)}
+                    </td>
                     <td className="px-6 py-4">{formatPercent(row.allocation * 100)}</td>
                   </tr>
                 ))
-              : classRows.map((row) => (
+              : classRows.map(row => (
                   <tr
                     key={row.id}
                     onClick={() => onSelect?.(activeId === row.id ? null : row.id)}
@@ -75,9 +83,11 @@ const PositionsTable = ({ assetRows, classRows, mode, activeId, onSelect }: Posi
                   >
                     <td className="px-6 py-4 text-white font-semibold capitalize">{row.label}</td>
                     <td className="px-6 py-4 text-muted">
-                      {assetRows.filter((asset) => asset.class.toUpperCase() === row.label).length}
+                      {assetRows.filter(asset => asset.class.toUpperCase() === row.label).length}
                     </td>
-                    <td className="px-6 py-4 font-semibold text-white">{formatCurrency(row.value)}</td>
+                    <td className="px-6 py-4 font-semibold text-white">
+                      {formatCurrency(row.value)}
+                    </td>
                     <td className="px-6 py-4">{formatPercent(row.allocation * 100)}</td>
                   </tr>
                 ))}
@@ -89,4 +99,3 @@ const PositionsTable = ({ assetRows, classRows, mode, activeId, onSelect }: Posi
 }
 
 export default PositionsTable
-

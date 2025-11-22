@@ -73,13 +73,13 @@ const assetBlueprints: AssetBlueprint[] = [
 
 const startDate = new Date('2024-12-01T00:00:00Z')
 const timeline = Array.from({ length: 40 }, (_, index) =>
-  formatISO(addWeeks(startDate, index), { representation: 'complete' }),
+  formatISO(addWeeks(startDate, index), { representation: 'complete' })
 )
 
 const clampPrice = (value: number) => Math.max(0.01, Number(value.toFixed(2)))
 
 export const priceHistory: PricePoint[] = timeline.flatMap((date, index) => {
-  return assetBlueprints.map((asset) => {
+  return assetBlueprints.map(asset => {
     const sine = Math.sin(index / 3) * asset.oscillation * asset.base
     const price = asset.base + asset.drift * index + sine
     return {
@@ -91,7 +91,7 @@ export const priceHistory: PricePoint[] = timeline.flatMap((date, index) => {
 })
 
 const latestByAsset = new Map<string, PricePoint>()
-priceHistory.forEach((point) => {
+priceHistory.forEach(point => {
   if (!latestByAsset.has(point.assetId) || latestByAsset.get(point.assetId)!.asOf < point.asOf) {
     latestByAsset.set(point.assetId, point)
   }
@@ -99,18 +99,49 @@ priceHistory.forEach((point) => {
 
 export const latestPrices: PricePoint[] = Array.from(latestByAsset.values())
 
-export const assets: Asset[] = assetBlueprints.map(({ base: _base, drift: _drift, oscillation: _oscillation, ...rest }) => rest)
+export const assets: Asset[] = assetBlueprints.map(
+  ({ base: _base, drift: _drift, oscillation: _oscillation, ...rest }) => rest
+)
 
 export const portfolioSnapshot: Portfolio = {
   id: 'portfolio-primary',
   asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
   positions: [
-    { id: 'pos-btc', assetId: 'BTC', quantity: 1.25, asOf: latestPrices[0]?.asOf ?? new Date().toISOString() },
-    { id: 'pos-eth', assetId: 'ETH', quantity: 9.5, asOf: latestPrices[0]?.asOf ?? new Date().toISOString() },
-    { id: 'pos-aapl', assetId: 'AAPL', quantity: 140, asOf: latestPrices[0]?.asOf ?? new Date().toISOString() },
-    { id: 'pos-msft', assetId: 'MSFT', quantity: 90, asOf: latestPrices[0]?.asOf ?? new Date().toISOString() },
-    { id: 'pos-tsla', assetId: 'TSLA', quantity: 60, asOf: latestPrices[0]?.asOf ?? new Date().toISOString() },
-    { id: 'pos-usd', assetId: 'USD', quantity: 25000, asOf: latestPrices[0]?.asOf ?? new Date().toISOString() },
+    {
+      id: 'pos-btc',
+      assetId: 'BTC',
+      quantity: 1.25,
+      asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
+    },
+    {
+      id: 'pos-eth',
+      assetId: 'ETH',
+      quantity: 9.5,
+      asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
+    },
+    {
+      id: 'pos-aapl',
+      assetId: 'AAPL',
+      quantity: 140,
+      asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
+    },
+    {
+      id: 'pos-msft',
+      assetId: 'MSFT',
+      quantity: 90,
+      asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
+    },
+    {
+      id: 'pos-tsla',
+      assetId: 'TSLA',
+      quantity: 60,
+      asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
+    },
+    {
+      id: 'pos-usd',
+      assetId: 'USD',
+      quantity: 25000,
+      asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
+    },
   ],
 }
-

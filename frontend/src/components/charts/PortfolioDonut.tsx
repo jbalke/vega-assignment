@@ -37,7 +37,14 @@ const CustomTooltip = ({ active, payload }: TooltipProps) => {
   )
 }
 
-const PortfolioDonut = ({ data, totalValue, mode, onModeChange, activeId, onSelect }: PortfolioDonutProps) => {
+const PortfolioDonut = ({
+  data,
+  totalValue,
+  mode,
+  onModeChange,
+  activeId,
+  onSelect,
+}: PortfolioDonutProps) => {
   const handleSliceClick = (entry: BreakdownDatum | null) => {
     if (!onSelect || !entry) return
     onSelect(activeId === entry.id ? null : entry.id)
@@ -51,7 +58,7 @@ const PortfolioDonut = ({ data, totalValue, mode, onModeChange, activeId, onSele
           <p className="text-3xl font-semibold text-white">{formatCurrency(totalValue)}</p>
         </div>
         <div className="flex gap-2 rounded-full bg-white/5 p-1 text-sm">
-          {(['asset', 'class'] as const).map((view) => (
+          {(['asset', 'class'] as const).map(view => (
             <button
               key={view}
               onClick={() => onModeChange(view)}
@@ -76,7 +83,9 @@ const PortfolioDonut = ({ data, totalValue, mode, onModeChange, activeId, onSele
                 outerRadius="90%"
                 strokeWidth={2}
                 fill="#8884d8"
-                onClick={(event) => handleSliceClick((event?.payload ?? null) as BreakdownDatum | null)}
+                onClick={event =>
+                  handleSliceClick((event?.payload ?? null) as BreakdownDatum | null)
+                }
               >
                 {data.map((entry, idx) => (
                   <Cell
@@ -106,10 +115,15 @@ const PortfolioDonut = ({ data, totalValue, mode, onModeChange, activeId, onSele
                   {formatPercent(entry.allocation * 100)}
                 </p>
               </div>
-              <div className="text-base font-semibold text-white/90">{formatCurrency(entry.value)}</div>
+              <div className="text-base font-semibold text-white/90">
+                {formatCurrency(entry.value)}
+              </div>
               <span
                 className="ml-3 h-3 w-3 rounded-full"
-                style={{ backgroundColor: COLORS[idx % COLORS.length], opacity: activeId && activeId !== entry.id ? 0.4 : 1 }}
+                style={{
+                  backgroundColor: COLORS[idx % COLORS.length],
+                  opacity: activeId && activeId !== entry.id ? 0.4 : 1,
+                }}
               />
             </button>
           ))}
@@ -120,4 +134,3 @@ const PortfolioDonut = ({ data, totalValue, mode, onModeChange, activeId, onSele
 }
 
 export default PortfolioDonut
-

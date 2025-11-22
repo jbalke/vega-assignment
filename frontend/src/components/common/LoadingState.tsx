@@ -6,4 +6,3 @@ const LoadingState = ({ label = 'Loading portfolio data...' }: { label?: string 
 )
 
 export default LoadingState
-

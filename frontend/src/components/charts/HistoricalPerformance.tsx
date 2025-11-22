@@ -1,4 +1,12 @@
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 import { timeRangeOptions } from '../../features/portfolio/hooks'
 import type { TimeRange } from '../../features/portfolio/hooks'
@@ -13,7 +21,12 @@ interface HistoricalPerformanceProps {
   isLoading?: boolean
 }
 
-const HistoricalPerformance = ({ series, range, onRangeChange, isLoading }: HistoricalPerformanceProps) => {
+const HistoricalPerformance = ({
+  series,
+  range,
+  onRangeChange,
+  isLoading,
+}: HistoricalPerformanceProps) => {
   if (!series.length && isLoading) {
     return <LoadingState label="Crunching historical performance..." />
   }
@@ -30,12 +43,14 @@ const HistoricalPerformance = ({ series, range, onRangeChange, isLoading }: Hist
           ) : null}
         </div>
         <div className="flex gap-2">
-          {timeRangeOptions.map((option) => (
+          {timeRangeOptions.map(option => (
             <button
               key={option.value}
               onClick={() => onRangeChange(option.value)}
               className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
-                range === option.value ? 'bg-accent text-white' : 'bg-white/5 text-muted hover:text-white'
+                range === option.value
+                  ? 'bg-accent text-white'
+                  : 'bg-white/5 text-muted hover:text-white'
               }`}
             >
               {option.label}
@@ -53,13 +68,22 @@ const HistoricalPerformance = ({ series, range, onRangeChange, isLoading }: Hist
                   <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
-              <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} strokeDasharray="3 3" />
-              <XAxis dataKey="date" tickFormatter={formatDateLabel} stroke="#94a3b8" fontSize={12} />
+              <CartesianGrid
+                stroke="rgba(255,255,255,0.05)"
+                vertical={false}
+                strokeDasharray="3 3"
+              />
+              <XAxis
+                dataKey="date"
+                tickFormatter={formatDateLabel}
+                stroke="#94a3b8"
+                fontSize={12}
+              />
               <YAxis
                 stroke="#94a3b8"
                 fontSize={12}
                 axisLine={false}
-                tickFormatter={(value) => formatCurrency(value).replace('$', '')}
+                tickFormatter={value => formatCurrency(value).replace('$', '')}
                 width={80}
               />
               <Tooltip
@@ -69,14 +93,22 @@ const HistoricalPerformance = ({ series, range, onRangeChange, isLoading }: Hist
                   border: '1px solid rgba(255,255,255,0.1)',
                   padding: '0.75rem 1rem',
                 }}
-                labelFormatter={(label) => formatDateLabel(label)}
+                labelFormatter={label => formatDateLabel(label)}
                 formatter={(value: number) => [formatCurrency(value), 'Value']}
               />
-              <Area type="monotone" dataKey="value" stroke="#c4b5fd" strokeWidth={2} fill="url(#performanceGradient)" />
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke="#c4b5fd"
+                strokeWidth={2}
+                fill="url(#performanceGradient)"
+              />
             </AreaChart>
           </ResponsiveContainer>
         ) : (
-          <div className="flex h-full items-center justify-center text-muted">No data for selected range.</div>
+          <div className="flex h-full items-center justify-center text-muted">
+            No data for selected range.
+          </div>
         )}
       </div>
     </div>
@@ -84,4 +116,3 @@ const HistoricalPerformance = ({ series, range, onRangeChange, isLoading }: Hist
 }
 
 export default HistoricalPerformance
-

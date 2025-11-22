@@ -43,7 +43,6 @@ enableMocking().then(() => {
           </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>
-    </StrictMode>,
+    </StrictMode>
   )
 })
-

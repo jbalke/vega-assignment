@@ -33,7 +33,7 @@ describe('LoginPage', () => {
     render(
       <MemoryRouter>
         <LoginPage />
-      </MemoryRouter>,
+      </MemoryRouter>
     )
 
     await userEvent.clear(screen.getByLabelText(/email/i))
@@ -45,4 +45,3 @@ describe('LoginPage', () => {
     expect(loginMock).toHaveBeenCalledWith('demo@vega.app', 'secret')
   })
 })
-

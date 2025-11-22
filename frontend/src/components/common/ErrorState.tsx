@@ -4,7 +4,11 @@ interface ErrorStateProps {
   onRetry?: () => void
 }
 
-const ErrorState = ({ title = 'Unable to load data', message = 'Please try again in a moment.', onRetry }: ErrorStateProps) => (
+const ErrorState = ({
+  title = 'Unable to load data',
+  message = 'Please try again in a moment.',
+  onRetry,
+}: ErrorStateProps) => (
   <div className="flex h-64 w-full flex-col items-center justify-center gap-4 rounded-3xl border border-danger/30 bg-danger/5 text-center text-danger">
     <div className="text-lg font-semibold">{title}</div>
     <p className="max-w-md text-sm text-danger/80">{message}</p>
@@ -20,4 +24,3 @@ const ErrorState = ({ title = 'Unable to load data', message = 'Please try again
 )
 
 export default ErrorState
-
