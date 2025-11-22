@@ -6,8 +6,9 @@ A Vite + React + TypeScript single-page application that visualises a mock inves
 
 - React 19 with TypeScript, React Router, TanStack Query
 - Recharts for visualisations, Tailwind CSS v4 for themeable styling
+- React Icons for UI icons
 - Vite + Vitest + Testing Library for unit tests
-- Playwright for E2E and accessibility testing
+- Playwright for E2E and accessibility testing (with Page Object Model)
 - MSW (Mock Service Worker) for API mocking
 - ESLint + Prettier for code quality
 
@@ -40,6 +41,7 @@ Visit `http://localhost:5173` and authenticate with the demo credentials:
 | `npm run lint:fix`       | Auto-fix ESLint issues                     |
 | `npm run format`         | Check code formatting                      |
 | `npm run format:fix`     | Auto-format code with Prettier             |
+| `npm run format:lint`    | Check both formatting and linting          |
 
 ### 🧪 Testing
 
@@ -65,14 +67,29 @@ npm run test:e2e:ui
 npm run test:a11y
 ```
 
+E2E tests use the Page Object Model (POM) pattern for maintainability. Page objects are located in `e2e/pages/` and include:
+
+- `LoginPage.ts` - Login page interactions
+- `DashboardPage.ts` - Dashboard page interactions
+
+Tests cover:
+
+- Login flow and authentication
+- Dashboard functionality
+- Accessibility (WCAG 2.1 AA compliance)
+- Mobile responsive design (iPhone SE viewport)
+
 ### 🧠 Architecture Notes
 
-- `src/services/mockApi.ts` exposes `/assets`, `/portfolios`, and `/prices` equivalents backed by deterministic mock data in `src/data/mockData.ts`.
-- `AuthProvider` stores a session token in `localStorage` for the demo login flow.
+- `src/services/mockApi.ts` makes real `fetch` calls to `/api/*` endpoints that are intercepted by MSW in development.
+- `src/mocks/handlers.ts` defines MSW request handlers for `/api/assets`, `/api/portfolios`, and `/api/prices` using mock data from `src/data/mockData.ts`.
+- `src/mocks/browser.ts` configures and starts the MSW browser worker (only in development mode).
+- `AuthProvider` stores user session in `localStorage` for the demo login flow.
 - `usePortfolioOverview` composes assets, positions, and prices via TanStack Query and feeds both the donut and positions table.
 - `usePriceHistory` hydrates the historical chart with time-range aware price slices; selections in the donut chart automatically refilter both the table and historical chart.
-- MSW intercepts all API requests in development mode.
-- Tailwind theme uses CSS `@theme` directive for white-label customization.
+- MSW intercepts all API requests in development mode with a configurable delay.
+- Tailwind theme uses CSS `@theme` directive in `src/index.css` for white-label customization.
+- React Icons (`react-icons`) is used for UI icons (e.g., password visibility toggle).
 
 ### ✅ Testing & Quality
 
@@ -88,15 +105,21 @@ npm run format      # Prettier formatting checks
 ### 📂 Project Layout
 
 ```
-frontend/
+.
   e2e/              # Playwright E2E and a11y tests
+    pages/          # Page Object Model classes
   src/
     components/     # charts, tables, reusable UI
+      charts/       # PortfolioDonut, HistoricalPerformance
+      common/       # ErrorState, LoadingState
+      tables/       # PositionsTable
     data/           # deterministic asset & price fixtures
     features/       # portfolio hooks + range helpers
+    mocks/          # MSW handlers and browser setup
     pages/          # login + dashboard routes
     providers/      # auth + react-query setup
-    services/       # mock API contract
+    services/       # API service layer (fetch calls)
+    types/          # TypeScript type definitions
     utils/          # formatting + aggregation helpers
 ```
 
