@@ -7,7 +7,7 @@ import LoadingState from '../components/common/LoadingState'
 import PositionsTable from '../components/tables/PositionsTable'
 import { usePortfolioOverview, usePriceHistory } from '../features/portfolio/hooks'
 import type { TimeRange } from '../features/portfolio/hooks'
-import { useAuth } from '../providers/AuthProvider'
+import { useAuth } from '../providers/useAuth'
 import { formatRelativeTime } from '../utils/format'
 import { buildHistoricalSeries } from '../utils/portfolio'
 

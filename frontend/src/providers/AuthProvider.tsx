@@ -1,18 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 
-interface AuthUser {
-  name: string
-  email: string
-}
-
-interface AuthContextValue {
-  user: AuthUser | null
-  isAuthenticated: boolean
-  login: (email: string, password: string) => Promise<void>
-  logout: () => void
-  error: string | null
-}
+import { AuthContext, type AuthUser } from './AuthContext'
 
 const AUTH_STORAGE_KEY = 'vega-auth-user'
 
@@ -21,8 +10,6 @@ const allowedUser: AuthUser & { password: string } = {
   email: 'investor@vega.app',
   password: 'portfolio',
 }
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 const readStoredUser = (): AuthUser | null => {
   if (typeof window === 'undefined') return null
@@ -73,12 +60,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider')
-  }
-  return context
 }

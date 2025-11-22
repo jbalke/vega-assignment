@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuth } from '../providers/AuthProvider'
+import { useAuth } from '../providers/useAuth'
 
 const LoginPage = () => {
   const { login, error } = useAuth()
