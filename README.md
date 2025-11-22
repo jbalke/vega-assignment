@@ -31,7 +31,7 @@ Visit `http://localhost:5173` and authenticate with the demo credentials:
 - `AuthProvider` stores a session token in `localStorage` for the demo login flow.
 - `usePortfolioOverview` composes assets, positions, and prices via TanStack Query and feeds both the donut and positions table.
 - `usePriceHistory` hydrates the historical chart with time-range aware price slices; selections in the donut chart automatically refilter both the table and historical chart.
-- Tailwind tokens leverage CSS variables for quick white-label adjustments; tweak `:root` in `src/index.css` or update `tailwind.config.js`.
+- Tailwind tokens live in the `@theme` block inside `src/index.css`, so you can adjust brand colors, shadows, and typography there for white-labeling.
 
 ### ✅ Testing & Quality
 ```bash
