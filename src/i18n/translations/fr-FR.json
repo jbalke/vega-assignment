@@ -1,0 +1,64 @@
+{
+  "auth": {
+    "title": "Connexion investisseur",
+    "subtitle": "Utilisez les identifiants de démonstration {{email}} / {{password}}",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "submit": "Accéder au portefeuille",
+    "submitting": "Connexion en cours…",
+    "errors": {
+      "invalidCredentials": "E-mail ou mot de passe invalide"
+    }
+  },
+  "dashboard": {
+    "welcome": "Bon retour",
+    "updated": "Mis à jour {{relative}}",
+    "updatedFallback": "à l’instant",
+    "refresh": "Rafraîchir",
+    "logout": "Se déconnecter",
+    "portfolioValue": "Valeur du portefeuille",
+    "performance": "Performance",
+    "noData": "Aucune donnée pour la période sélectionnée."
+  },
+  "donut": {
+    "views": {
+      "asset": "Actif",
+      "class": "Classe"
+    }
+  },
+  "tables": {
+    "positions": "Positions",
+    "exposureByClass": "Répartition par classe",
+    "rowCount_one": "{{count}} ligne",
+    "rowCount_other": "{{count}} lignes",
+    "clearFilter": "Effacer le filtre",
+    "ariaLabel": "Positions",
+    "headings": {
+      "asset": "Actif",
+      "class": "Classe",
+      "quantity": "Quantité",
+      "price": "Prix",
+      "value": "Valeur",
+      "allocation": "Allocation",
+      "holdings": "Participations"
+    }
+  },
+  "states": {
+    "errorTitle": "Impossible de charger les données",
+    "errorMessage": "Veuillez réessayer dans un instant.",
+    "retry": "Réessayer",
+    "loading": "Chargement des données du portefeuille...",
+    "historicalLoading": "Calcul des performances historiques..."
+  },
+  "footer": {
+    "languageLabel": "Langue",
+    "helper": "Choisissez votre langue préférée",
+    "options": {
+      "enGB": "Anglais (UK)",
+      "frFR": "Français (FR)",
+      "deDE": "Allemand (DE)"
+    }
+  }
+}

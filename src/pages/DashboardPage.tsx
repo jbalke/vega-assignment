@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import HistoricalPerformance from '../components/charts/HistoricalPerformance';
 import PortfolioDonut from '../components/charts/PortfolioDonut';
+import AppFooter from '../components/common/AppFooter';
 import ErrorState from '../components/common/ErrorState';
 import LoadingState from '../components/common/LoadingState';
 import PositionsTable from '../components/tables/PositionsTable';
@@ -78,65 +80,76 @@ const DashboardPage = () => {
     logout();
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.35),_rgba(7,9,15,1)_60%)] px-4 py-8 text-white md:px-8">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="text-sm uppercase tracking-[0.3em] text-muted">Welcome back</p>
-          <h1 className="text-3xl font-semibold text-white">{user?.name}</h1>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="text-xs uppercase tracking-[0.2em] text-muted">
-            Updated {lastUpdated ? formatRelativeTime(lastUpdated) : 'just now'}
+      <div className="mx-auto flex max-w-6xl flex-col">
+        <header className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-muted">
+              {t('dashboard.welcome')}
+            </p>
+            <h1 className="text-3xl font-semibold text-white">{user?.name}</h1>
           </div>
-          <button
-            onClick={refetch}
-            className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/50"
-          >
-            Refresh
-          </button>
-          <button
-            onClick={handleLogout}
-            className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="text-xs uppercase tracking-[0.2em] text-muted">
+              {t('dashboard.updated', {
+                relative: lastUpdated
+                  ? formatRelativeTime(lastUpdated)
+                  : t('dashboard.updatedFallback'),
+              })}
+            </div>
+            <button
+              onClick={refetch}
+              className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/50"
+            >
+              {t('dashboard.refresh')}
+            </button>
+            <button
+              onClick={handleLogout}
+              className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+            >
+              {t('dashboard.logout')}
+            </button>
+          </div>
+        </header>
 
-      <main>
-        <section className="mt-8 space-y-6">
-          {error ? (
-            <ErrorState onRetry={refetch} message={error.message} />
-          ) : isLoading ? (
-            <LoadingState />
-          ) : (
-            <>
-              <PortfolioDonut
-                data={mode === 'asset' ? breakdownByAsset : breakdownByClass}
-                totalValue={totalValue}
-                mode={mode}
-                onModeChange={handleModeChange}
-                activeId={selectedId}
-                onSelect={handleSelection}
-              />
-              <HistoricalPerformance
-                series={historySeries}
-                range={range}
-                onRangeChange={setRange}
-                isLoading={historyQuery.isPending}
-              />
-              <PositionsTable
-                assetRows={filteredAssetRows}
-                classRows={filteredClassRows}
-                mode={mode}
-                activeId={selectedId}
-                onSelect={handleSelection}
-              />
-            </>
-          )}
-        </section>
-      </main>
+        <main>
+          <section className="mt-8 space-y-6">
+            {error ? (
+              <ErrorState onRetry={refetch} message={error.message} />
+            ) : isLoading ? (
+              <LoadingState />
+            ) : (
+              <>
+                <PortfolioDonut
+                  data={mode === 'asset' ? breakdownByAsset : breakdownByClass}
+                  totalValue={totalValue}
+                  mode={mode}
+                  onModeChange={handleModeChange}
+                  activeId={selectedId}
+                  onSelect={handleSelection}
+                />
+                <HistoricalPerformance
+                  series={historySeries}
+                  range={range}
+                  onRangeChange={setRange}
+                  isLoading={historyQuery.isPending}
+                />
+                <PositionsTable
+                  assetRows={filteredAssetRows}
+                  classRows={filteredClassRows}
+                  mode={mode}
+                  activeId={selectedId}
+                  onSelect={handleSelection}
+                />
+              </>
+            )}
+          </section>
+        </main>
+        <AppFooter />
+      </div>
     </div>
   );
 };

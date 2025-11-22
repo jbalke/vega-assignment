@@ -10,6 +10,7 @@ const allowedUser: AuthUser & { password: string } = {
   email: 'investor@vega.app',
   password: 'portfolio',
 };
+const INVALID_CREDENTIALS_ERROR = 'invalidCredentials';
 
 const readStoredUser = (): AuthUser | null => {
   if (typeof window === 'undefined') return null;
@@ -40,8 +41,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
       return;
     }
-    setError('Invalid email or password');
-    throw new Error('Invalid email or password');
+    setError(INVALID_CREDENTIALS_ERROR);
+    throw new Error(INVALID_CREDENTIALS_ERROR);
   }, []);
 
   const logout = useCallback(() => {

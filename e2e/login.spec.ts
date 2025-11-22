@@ -9,8 +9,7 @@ test.describe('Login Page', () => {
     loginPage = new LoginPage(page);
     await loginPage.goto();
   });
-
-  test('should display login form', async ({ page }) => {
+  test('should display login form', async () => {
     await expect(loginPage.heading).toBeVisible();
     await expect(loginPage.emailInput).toBeVisible();
     await expect(loginPage.passwordInput).toBeVisible();

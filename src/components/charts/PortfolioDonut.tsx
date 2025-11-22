@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 
 import type { BreakdownDatum } from '../../types/portfolio';
@@ -45,6 +46,8 @@ const PortfolioDonut = ({
   activeId,
   onSelect,
 }: PortfolioDonutProps) => {
+  const { t } = useTranslation();
+
   const handleSliceClick = (entry: BreakdownDatum | null) => {
     if (!onSelect || !entry) return;
     onSelect(activeId === entry.id ? null : entry.id);
@@ -54,7 +57,9 @@ const PortfolioDonut = ({
     <div className="glass-panel flex flex-col gap-6 p-6" data-testid="portfolio-donut-chart">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-muted">Portfolio Value</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted">
+            {t('dashboard.portfolioValue')}
+          </p>
           <p className="text-3xl font-semibold text-white">{formatCurrency(totalValue)}</p>
         </div>
         <div className="flex gap-2 rounded-full bg-white/5 p-1 text-sm">
@@ -66,7 +71,7 @@ const PortfolioDonut = ({
                 mode === view ? 'bg-accent text-white' : 'text-muted hover:text-white'
               }`}
             >
-              {view}
+              {t(`donut.views.${view}`)}
             </button>
           ))}
         </div>

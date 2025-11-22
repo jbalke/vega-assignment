@@ -8,20 +8,25 @@ export class LoginPage {
   readonly passwordToggleButton: Locator;
   readonly submitButton: Locator;
   readonly errorMessage: Locator;
+  readonly languageSelect: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.heading = page.getByRole('heading', { name: /investor login/i });
+    this.heading = page.getByRole('heading', { level: 1 });
     this.emailInput = page.getByLabel(/email/i);
-    this.passwordInput = page.getByRole('textbox', { name: 'Password' });
-    this.passwordToggleButton = page.getByRole('button', { name: /show password/i });
-    this.submitButton = page.getByRole('button', { name: /access portfolio/i });
-    this.errorMessage = page.getByText(/invalid email or password/i);
+    this.passwordInput = page.getByRole('textbox', { name: /password/i });
+    this.passwordToggleButton = page.getByRole('button', { name: /show password|hide password/i });
+    this.submitButton = page.getByRole('button', {
+      name: /access portfolio|accéder au portefeuille|portfolio öffnen/i,
+    });
+    this.errorMessage = page.getByText(
+      /invalid email or password|e-mail ou mot de passe invalide|ungültige e-mail oder ungültiges passwort/i
+    );
+    this.languageSelect = page.getByTestId('language-select');
   }
 
   async goto() {
     await this.page.goto('/login');
-    await this.page.waitForLoadState('networkidle');
   }
 
   async fillEmail(email: string) {
@@ -58,5 +63,13 @@ export class LoginPage {
   async isPasswordHidden(): Promise<boolean> {
     const type = await this.passwordInput.getAttribute('type');
     return type === 'password';
+  }
+
+  async selectLanguage(language: 'en-GB' | 'fr-FR' | 'de-DE') {
+    await this.languageSelect.selectOption(language);
+  }
+
+  async getSelectedLanguage(): Promise<string> {
+    return this.languageSelect.inputValue();
   }
 }
