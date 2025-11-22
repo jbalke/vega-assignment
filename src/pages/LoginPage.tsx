@@ -13,18 +13,19 @@ const LoginPage = () => {
   const { login, error } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [email, setEmail] = useState(DEMO_EMAIL);
-  const [password, setPassword] = useState(DEMO_PASSWORD);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
     setLocalError(null);
     try {
-      await login(email.trim(), password);
+      const formData = new FormData(event.currentTarget);
+      const email = (formData.get('email') as string).trim();
+      const password = formData.get('password') as string;
+      await login(email, password);
       navigate('/dashboard', { replace: true });
     } catch (submitError) {
       setLocalError((submitError as Error).message);
@@ -53,10 +54,10 @@ const LoginPage = () => {
             <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-muted">
               {t('auth.email')}
               <input
+                name="email"
                 type="email"
+                defaultValue={DEMO_EMAIL}
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white focus:border-accent focus:outline-none"
-                value={email}
-                onChange={event => setEmail(event.target.value)}
                 required
               />
             </label>
@@ -64,10 +65,10 @@ const LoginPage = () => {
               {t('auth.password')}
               <div className="relative mt-2">
                 <input
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
+                  defaultValue={DEMO_PASSWORD}
                   className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 pr-12 text-base text-white focus:border-accent focus:outline-none"
-                  value={password}
-                  onChange={event => setPassword(event.target.value)}
                   required
                 />
                 <button

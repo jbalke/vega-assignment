@@ -10,6 +10,7 @@ test.describe('Accessibility Tests', () => {
   test('login page should have no accessibility violations', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
+    await loginPage.waitForLoad();
 
     const accessibilityScanResults = await new AxeBuilder({ page }).withTags(tags).analyze();
 
