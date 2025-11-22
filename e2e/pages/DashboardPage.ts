@@ -43,7 +43,6 @@ export class DashboardPage {
   }
 
   async waitForLoad() {
-    await this.page.waitForLoadState('networkidle');
     await this.welcomeMessage.waitFor({ state: 'visible' });
   }
 

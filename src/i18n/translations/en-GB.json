@@ -1,0 +1,64 @@
+{
+  "auth": {
+    "title": "Investor login",
+    "subtitle": "Use demo credentials {{email}} / {{password}}",
+    "email": "Email",
+    "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "submit": "Access portfolio",
+    "submitting": "Signing in…",
+    "errors": {
+      "invalidCredentials": "Invalid email or password"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "updated": "Updated {{relative}}",
+    "updatedFallback": "just now",
+    "refresh": "Refresh",
+    "logout": "Logout",
+    "portfolioValue": "Portfolio value",
+    "performance": "Performance",
+    "noData": "No data for selected range."
+  },
+  "donut": {
+    "views": {
+      "asset": "Asset",
+      "class": "Class"
+    }
+  },
+  "tables": {
+    "positions": "Positions",
+    "exposureByClass": "Exposure by class",
+    "rowCount_one": "{{count}} row",
+    "rowCount_other": "{{count}} rows",
+    "clearFilter": "Clear filter",
+    "ariaLabel": "Positions",
+    "headings": {
+      "asset": "Asset",
+      "class": "Class",
+      "quantity": "Quantity",
+      "price": "Price",
+      "value": "Value",
+      "allocation": "Allocation",
+      "holdings": "Holdings"
+    }
+  },
+  "states": {
+    "errorTitle": "Unable to load data",
+    "errorMessage": "Please try again in a moment.",
+    "retry": "Retry",
+    "loading": "Loading portfolio data...",
+    "historicalLoading": "Crunching historical performance..."
+  },
+  "footer": {
+    "languageLabel": "Language",
+    "helper": "Choose your preferred language",
+    "options": {
+      "enGB": "English (UK)",
+      "frFR": "Français (FR)",
+      "deDE": "Deutsch (DE)"
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import type { BreakdownDatum, EnrichedPosition } from '../../types/portfolio';
 import { formatCurrency, formatPercent } from '../../utils/format';
 
@@ -9,8 +11,8 @@ interface PositionsTableProps {
   onSelect?: (id: string | null) => void;
 }
 
-const assetHeaders = ['Asset', 'Class', 'Quantity', 'Price', 'Value', 'Allocation'];
-const classHeaders = ['Class', 'Holdings', 'Value', 'Allocation'];
+const assetHeaders = ['asset', 'class', 'quantity', 'price', 'value', 'allocation'] as const;
+const classHeaders = ['class', 'holdings', 'value', 'allocation'] as const;
 
 const PositionsTable = ({
   assetRows,
@@ -19,6 +21,7 @@ const PositionsTable = ({
   activeId,
   onSelect,
 }: PositionsTableProps) => {
+  const { t } = useTranslation();
   const rows = mode === 'asset' ? assetRows : classRows;
 
   return (
@@ -26,31 +29,35 @@ const PositionsTable = ({
       <div className="flex items-center justify-between px-6 py-5">
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-muted">
-            {mode === 'asset' ? 'Positions' : 'Exposure by class'}
+            {mode === 'asset' ? t('tables.positions') : t('tables.exposureByClass')}
           </p>
-          <p className="text-xl font-semibold text-white">{rows.length} rows</p>
+          <p className="text-xl font-semibold text-white">
+            {t('tables.rowCount', { count: rows.length })}
+          </p>
         </div>
         {activeId ? (
           <button
             className="text-xs font-semibold uppercase tracking-[0.2em] text-accent transition hover:text-white"
             onClick={() => onSelect?.(null)}
           >
-            Clear filter
+            {t('tables.clearFilter')}
           </button>
         ) : null}
       </div>
       <div className="overflow-x-auto">
         <table
           className="w-full min-w-[600px] table-fixed border-collapse text-sm"
-          aria-label="Positions"
+          aria-label={t('tables.ariaLabel')}
         >
           <thead className="bg-white/5 text-left text-xs uppercase tracking-[0.2em] text-muted">
             <tr>
-              {(mode === 'asset' ? assetHeaders : classHeaders).map(header => (
-                <th key={header} scope="col" className="px-6 py-3 font-medium">
-                  {header}
-                </th>
-              ))}
+              {(mode === 'asset' ? assetHeaders : classHeaders).map(headerKey => {
+                return (
+                  <th key={headerKey} scope="col" className="px-6 py-3 font-medium">
+                    {t(`tables.headings.${headerKey}`)}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>

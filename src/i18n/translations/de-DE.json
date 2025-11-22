@@ -1,0 +1,64 @@
+{
+  "auth": {
+    "title": "Anmeldung für Anleger",
+    "subtitle": "Verwenden Sie die Demo-Zugangsdaten {{email}} / {{password}}",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "submit": "Portfolio öffnen",
+    "submitting": "Anmeldung läuft…",
+    "errors": {
+      "invalidCredentials": "Ungültige E-Mail oder ungültiges Passwort"
+    }
+  },
+  "dashboard": {
+    "welcome": "Willkommen zurück",
+    "updated": "Aktualisiert {{relative}}",
+    "updatedFallback": "gerade eben",
+    "refresh": "Aktualisieren",
+    "logout": "Abmelden",
+    "portfolioValue": "Portfoliowert",
+    "performance": "Performance",
+    "noData": "Keine Daten für den ausgewählten Zeitraum."
+  },
+  "donut": {
+    "views": {
+      "asset": "Asset",
+      "class": "Klasse"
+    }
+  },
+  "tables": {
+    "positions": "Positionen",
+    "exposureByClass": "Exponierung nach Klasse",
+    "rowCount_one": "{{count}} Zeile",
+    "rowCount_other": "{{count}} Zeilen",
+    "clearFilter": "Filter löschen",
+    "ariaLabel": "Positionen",
+    "headings": {
+      "asset": "Asset",
+      "class": "Klasse",
+      "quantity": "Menge",
+      "price": "Preis",
+      "value": "Wert",
+      "allocation": "Allokation",
+      "holdings": "Bestände"
+    }
+  },
+  "states": {
+    "errorTitle": "Daten konnten nicht geladen werden",
+    "errorMessage": "Bitte versuchen Sie es in Kürze erneut.",
+    "retry": "Erneut versuchen",
+    "loading": "Portfolio-Daten werden geladen...",
+    "historicalLoading": "Historische Performance wird berechnet..."
+  },
+  "footer": {
+    "languageLabel": "Sprache",
+    "helper": "Wählen Sie Ihre bevorzugte Sprache",
+    "options": {
+      "enGB": "Englisch (UK)",
+      "frFR": "Französisch (FR)",
+      "deDE": "Deutsch (DE)"
+    }
+  }
+}

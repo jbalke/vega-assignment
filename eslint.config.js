@@ -4,6 +4,7 @@ import typescriptParser from '@typescript-eslint/parser';
 import prettierConfig from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import playwright from 'eslint-plugin-playwright';
 import prettier from 'eslint-plugin-prettier';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -14,7 +15,7 @@ export default [
   js.configs.recommended,
   prettierConfig,
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['src/**/*.{js,jsx,ts,tsx}', 'e2e/**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -82,7 +83,12 @@ export default [
     },
   },
   {
-    files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}'],
+    files: [
+      'src/**/*.test.{js,jsx,ts,tsx}',
+      'src/**/*.spec.{js,jsx,ts,tsx}',
+      'e2e/**/*.test.{js,jsx,ts,tsx}',
+      'e2e/**/*.spec.{js,jsx,ts,tsx}',
+    ],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -95,10 +101,27 @@ export default [
         afterEach: 'readonly',
         beforeAll: 'readonly',
         afterAll: 'readonly',
+        test: 'readonly',
       },
     },
   },
   {
-    ignores: ['dist', 'node_modules', 'coverage', 'public/mockServiceWorker.js'],
+    files: ['e2e/**/*.{js,ts}'],
+    plugins: {
+      playwright,
+    },
+    rules: {
+      ...playwright.configs.recommended.rules,
+    },
+  },
+  {
+    ignores: [
+      'dist',
+      'node_modules',
+      'coverage',
+      'public/mockServiceWorker.js',
+      'playwright-report',
+      'test-results',
+    ],
   },
 ];

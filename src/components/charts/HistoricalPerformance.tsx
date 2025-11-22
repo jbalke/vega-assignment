@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   Area,
   AreaChart,
@@ -27,15 +28,19 @@ const HistoricalPerformance = ({
   onRangeChange,
   isLoading,
 }: HistoricalPerformanceProps) => {
+  const { t } = useTranslation();
+
   if (!series.length && isLoading) {
-    return <LoadingState label="Crunching historical performance..." />;
+    return <LoadingState label={t('states.historicalLoading')} />;
   }
 
   return (
     <div className="glass-panel flex flex-col gap-6 p-6" data-testid="historical-performance-chart">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm uppercase tracking-[0.3em] text-muted">Performance</p>
+          <p className="text-sm uppercase tracking-[0.3em] text-muted">
+            {t('dashboard.performance')}
+          </p>
           {series.length ? (
             <p className="text-2xl font-semibold text-white">
               {formatCurrency(series[series.length - 1]?.value ?? 0)}
@@ -94,7 +99,7 @@ const HistoricalPerformance = ({
                   padding: '0.75rem 1rem',
                 }}
                 labelFormatter={label => formatDateLabel(label)}
-                formatter={(value: number) => [formatCurrency(value), 'Value']}
+                formatter={(value: number) => [formatCurrency(value), t('tables.headings.value')]}
               />
               <Area
                 type="monotone"
@@ -107,7 +112,7 @@ const HistoricalPerformance = ({
           </ResponsiveContainer>
         ) : (
           <div className="flex h-full items-center justify-center text-muted">
-            No data for selected range.
+            {t('dashboard.noData')}
           </div>
         )}
       </div>

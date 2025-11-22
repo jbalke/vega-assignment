@@ -10,6 +10,7 @@ A Vite + React + TypeScript single-page application that visualises a mock inves
 - Vite + Vitest + Testing Library for unit tests
 - Playwright for E2E and accessibility testing (with Page Object Model)
 - MSW (Mock Service Worker) for API mocking
+- i18next + react-i18next for localization (en-GB, fr-FR, de-DE)
 - ESLint + Prettier for code quality
 
 ### 🚀 Getting Started
@@ -90,6 +91,7 @@ Tests cover:
 - MSW intercepts all API requests in development mode with a configurable delay.
 - Tailwind theme uses CSS `@theme` directive in `src/index.css` for white-label customization.
 - React Icons (`react-icons`) is used for UI icons (e.g., password visibility toggle).
+- `src/i18n.ts` wires i18next + react-i18next with en-GB, fr-FR, and de-DE translations and persists the selected language (`vega-language`) to `localStorage`. The global footer exposes the language selector so users can switch locales at runtime.
 
 ### ✅ Testing & Quality
 
@@ -133,3 +135,8 @@ The application includes comprehensive accessibility testing using Playwright an
 - Proper ARIA labels and roles
 
 Run accessibility tests with: `npm run test:a11y`
+
+### 🌐 Localization
+
+- English (UK), French, and German translations ship by default via i18next.
+- Use the footer language selector to switch locales; your choice is stored in `localStorage`, so refreshes reuse it automatically.
