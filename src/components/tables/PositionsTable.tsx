@@ -1,16 +1,16 @@
-import type { BreakdownDatum, EnrichedPosition } from '../../types/portfolio'
-import { formatCurrency, formatPercent } from '../../utils/format'
+import type { BreakdownDatum, EnrichedPosition } from '../../types/portfolio';
+import { formatCurrency, formatPercent } from '../../utils/format';
 
 interface PositionsTableProps {
-  assetRows: EnrichedPosition[]
-  classRows: BreakdownDatum[]
-  mode: 'asset' | 'class'
-  activeId?: string | null
-  onSelect?: (id: string | null) => void
+  assetRows: EnrichedPosition[];
+  classRows: BreakdownDatum[];
+  mode: 'asset' | 'class';
+  activeId?: string | null;
+  onSelect?: (id: string | null) => void;
 }
 
-const assetHeaders = ['Asset', 'Class', 'Quantity', 'Price', 'Value', 'Allocation']
-const classHeaders = ['Class', 'Holdings', 'Value', 'Allocation']
+const assetHeaders = ['Asset', 'Class', 'Quantity', 'Price', 'Value', 'Allocation'];
+const classHeaders = ['Class', 'Holdings', 'Value', 'Allocation'];
 
 const PositionsTable = ({
   assetRows,
@@ -19,7 +19,7 @@ const PositionsTable = ({
   activeId,
   onSelect,
 }: PositionsTableProps) => {
-  const rows = mode === 'asset' ? assetRows : classRows
+  const rows = mode === 'asset' ? assetRows : classRows;
 
   return (
     <div className="glass-panel overflow-hidden p-0">
@@ -98,7 +98,7 @@ const PositionsTable = ({
         </table>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PositionsTable
+export default PositionsTable;

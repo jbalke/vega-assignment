@@ -1,32 +1,32 @@
-import { useState } from 'react'
-import type { FormEvent } from 'react'
-import { HiEye, HiEyeSlash } from 'react-icons/hi2'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { HiEye, HiEyeSlash } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '../providers/useAuth'
+import { useAuth } from '../providers/useAuth';
 
 const LoginPage = () => {
-  const { login, error } = useAuth()
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('investor@vega.app')
-  const [password, setPassword] = useState('portfolio')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [localError, setLocalError] = useState<string | null>(null)
-  const [showPassword, setShowPassword] = useState(false)
+  const { login, error } = useAuth();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('investor@vega.app');
+  const [password, setPassword] = useState('portfolio');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [localError, setLocalError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault()
-    setIsSubmitting(true)
-    setLocalError(null)
+    event.preventDefault();
+    setIsSubmitting(true);
+    setLocalError(null);
     try {
-      await login(email.trim(), password)
-      navigate('/dashboard', { replace: true })
+      await login(email.trim(), password);
+      navigate('/dashboard', { replace: true });
     } catch (submitError) {
-      setLocalError((submitError as Error).message)
+      setLocalError((submitError as Error).message);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.35),_rgba(7,9,15,1)_70%)] px-4 py-8 text-white">
@@ -81,7 +81,7 @@ const LoginPage = () => {
         </form>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

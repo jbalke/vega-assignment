@@ -1,7 +1,7 @@
 interface ErrorStateProps {
-  title?: string
-  message?: string
-  onRetry?: () => void
+  title?: string;
+  message?: string;
+  onRetry?: () => void;
 }
 
 const ErrorState = ({
@@ -21,6 +21,6 @@ const ErrorState = ({
       </button>
     ) : null}
   </div>
-)
+);
 
-export default ErrorState
+export default ErrorState;

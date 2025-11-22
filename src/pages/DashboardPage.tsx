@@ -1,15 +1,15 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react';
 
-import HistoricalPerformance from '../components/charts/HistoricalPerformance'
-import PortfolioDonut from '../components/charts/PortfolioDonut'
-import ErrorState from '../components/common/ErrorState'
-import LoadingState from '../components/common/LoadingState'
-import PositionsTable from '../components/tables/PositionsTable'
-import { usePortfolioOverview, usePriceHistory } from '../features/portfolio/hooks'
-import type { TimeRange } from '../features/portfolio/hooks'
-import { useAuth } from '../providers/useAuth'
-import { formatRelativeTime } from '../utils/format'
-import { buildHistoricalSeries } from '../utils/portfolio'
+import HistoricalPerformance from '../components/charts/HistoricalPerformance';
+import PortfolioDonut from '../components/charts/PortfolioDonut';
+import ErrorState from '../components/common/ErrorState';
+import LoadingState from '../components/common/LoadingState';
+import PositionsTable from '../components/tables/PositionsTable';
+import { usePortfolioOverview, usePriceHistory } from '../features/portfolio/hooks';
+import type { TimeRange } from '../features/portfolio/hooks';
+import { useAuth } from '../providers/useAuth';
+import { formatRelativeTime } from '../utils/format';
+import { buildHistoricalSeries } from '../utils/portfolio';
 
 const DashboardPage = () => {
   const {
@@ -21,32 +21,32 @@ const DashboardPage = () => {
     error,
     refetch,
     lastUpdated,
-  } = usePortfolioOverview()
-  const { user, logout } = useAuth()
+  } = usePortfolioOverview();
+  const { user, logout } = useAuth();
 
-  const [mode, setMode] = useState<'asset' | 'class'>('asset')
-  const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [range, setRange] = useState<TimeRange>('3M')
+  const [mode, setMode] = useState<'asset' | 'class'>('asset');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [range, setRange] = useState<TimeRange>('3M');
 
   const handleModeChange = (newMode: 'asset' | 'class') => {
-    setMode(newMode)
-    setSelectedId(null)
-  }
+    setMode(newMode);
+    setSelectedId(null);
+  };
 
   const activeAssetIds = useMemo(() => {
-    if (!positions.length) return []
-    if (!selectedId) return positions.map(position => position.assetId)
+    if (!positions.length) return [];
+    if (!selectedId) return positions.map(position => position.assetId);
     if (mode === 'asset') {
       return positions
         .filter(position => position.assetId === selectedId)
-        .map(position => position.assetId)
+        .map(position => position.assetId);
     }
     return positions
       .filter(position => position.class.toUpperCase() === selectedId.toUpperCase())
-      .map(position => position.assetId)
-  }, [positions, selectedId, mode])
+      .map(position => position.assetId);
+  }, [positions, selectedId, mode]);
 
-  const historyQuery = usePriceHistory(activeAssetIds, range)
+  const historyQuery = usePriceHistory(activeAssetIds, range);
 
   const historySeries = useMemo(
     () =>
@@ -58,25 +58,25 @@ const DashboardPage = () => {
           })
         : [],
     [historyQuery.data, positions, activeAssetIds]
-  )
+  );
 
   const filteredAssetRows = useMemo(() => {
-    if (mode !== 'asset' || !selectedId) return positions
-    return positions.filter(position => position.assetId === selectedId)
-  }, [mode, positions, selectedId])
+    if (mode !== 'asset' || !selectedId) return positions;
+    return positions.filter(position => position.assetId === selectedId);
+  }, [mode, positions, selectedId]);
 
   const filteredClassRows = useMemo(() => {
-    if (mode !== 'class' || !selectedId) return breakdownByClass
-    return breakdownByClass.filter(item => item.id === selectedId)
-  }, [mode, breakdownByClass, selectedId])
+    if (mode !== 'class' || !selectedId) return breakdownByClass;
+    return breakdownByClass.filter(item => item.id === selectedId);
+  }, [mode, breakdownByClass, selectedId]);
 
   const handleSelection = (id: string | null) => {
-    setSelectedId(id)
-  }
+    setSelectedId(id);
+  };
 
   const handleLogout = () => {
-    logout()
-  }
+    logout();
+  };
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.35),_rgba(7,9,15,1)_60%)] px-4 py-8 text-white md:px-8">
@@ -106,39 +106,39 @@ const DashboardPage = () => {
 
       <main>
         <section className="mt-8 space-y-6">
-        {error ? (
-          <ErrorState onRetry={refetch} message={error.message} />
-        ) : isLoading ? (
-          <LoadingState />
-        ) : (
-          <>
-            <PortfolioDonut
-              data={mode === 'asset' ? breakdownByAsset : breakdownByClass}
-              totalValue={totalValue}
-              mode={mode}
-              onModeChange={handleModeChange}
-              activeId={selectedId}
-              onSelect={handleSelection}
-            />
-            <HistoricalPerformance
-              series={historySeries}
-              range={range}
-              onRangeChange={setRange}
-              isLoading={historyQuery.isPending}
-            />
-            <PositionsTable
-              assetRows={filteredAssetRows}
-              classRows={filteredClassRows}
-              mode={mode}
-              activeId={selectedId}
-              onSelect={handleSelection}
-            />
-          </>
-        )}
+          {error ? (
+            <ErrorState onRetry={refetch} message={error.message} />
+          ) : isLoading ? (
+            <LoadingState />
+          ) : (
+            <>
+              <PortfolioDonut
+                data={mode === 'asset' ? breakdownByAsset : breakdownByClass}
+                totalValue={totalValue}
+                mode={mode}
+                onModeChange={handleModeChange}
+                activeId={selectedId}
+                onSelect={handleSelection}
+              />
+              <HistoricalPerformance
+                series={historySeries}
+                range={range}
+                onRangeChange={setRange}
+                isLoading={historyQuery.isPending}
+              />
+              <PositionsTable
+                assetRows={filteredAssetRows}
+                classRows={filteredClassRows}
+                mode={mode}
+                activeId={selectedId}
+                onSelect={handleSelection}
+              />
+            </>
+          )}
         </section>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;

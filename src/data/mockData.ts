@@ -1,12 +1,12 @@
-import { addWeeks, formatISO } from 'date-fns'
+import { addWeeks, formatISO } from 'date-fns';
 
-import type { Asset, Portfolio, PricePoint } from '../types/portfolio'
+import type { Asset, Portfolio, PricePoint } from '../types/portfolio';
 
 type AssetBlueprint = Asset & {
-  base: number
-  drift: number
-  oscillation: number
-}
+  base: number;
+  drift: number;
+  oscillation: number;
+};
 
 const assetBlueprints: AssetBlueprint[] = [
   {
@@ -69,39 +69,39 @@ const assetBlueprints: AssetBlueprint[] = [
     drift: 0,
     oscillation: 0,
   },
-]
+];
 
-const startDate = new Date('2024-12-01T00:00:00Z')
+const startDate = new Date('2024-12-01T00:00:00Z');
 const timeline = Array.from({ length: 40 }, (_, index) =>
   formatISO(addWeeks(startDate, index), { representation: 'complete' })
-)
+);
 
-const clampPrice = (value: number) => Math.max(0.01, Number(value.toFixed(2)))
+const clampPrice = (value: number) => Math.max(0.01, Number(value.toFixed(2)));
 
 export const priceHistory: PricePoint[] = timeline.flatMap((date, index) => {
   return assetBlueprints.map(asset => {
-    const sine = Math.sin(index / 3) * asset.oscillation * asset.base
-    const price = asset.base + asset.drift * index + sine
+    const sine = Math.sin(index / 3) * asset.oscillation * asset.base;
+    const price = asset.base + asset.drift * index + sine;
     return {
       assetId: asset.id,
       asOf: date,
       price: clampPrice(price),
-    }
-  })
-})
+    };
+  });
+});
 
-const latestByAsset = new Map<string, PricePoint>()
+const latestByAsset = new Map<string, PricePoint>();
 priceHistory.forEach(point => {
   if (!latestByAsset.has(point.assetId) || latestByAsset.get(point.assetId)!.asOf < point.asOf) {
-    latestByAsset.set(point.assetId, point)
+    latestByAsset.set(point.assetId, point);
   }
-})
+});
 
-export const latestPrices: PricePoint[] = Array.from(latestByAsset.values())
+export const latestPrices: PricePoint[] = Array.from(latestByAsset.values());
 
 export const assets: Asset[] = assetBlueprints.map(
   ({ base: _base, drift: _drift, oscillation: _oscillation, ...rest }) => rest
-)
+);
 
 export const portfolioSnapshot: Portfolio = {
   id: 'portfolio-primary',
@@ -144,4 +144,4 @@ export const portfolioSnapshot: Portfolio = {
       asOf: latestPrices[0]?.asOf ?? new Date().toISOString(),
     },
   ],
-}
+};

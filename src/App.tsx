@@ -1,25 +1,25 @@
-import type { ReactElement } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import type { ReactElement } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import DashboardPage from './pages/DashboardPage'
-import LoginPage from './pages/LoginPage'
-import { useAuth } from './providers/useAuth'
+import DashboardPage from './pages/DashboardPage';
+import LoginPage from './pages/LoginPage';
+import { useAuth } from './providers/useAuth';
 
 const ProtectedRoute = ({ children }: { children: ReactElement }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
-  return children
-}
+  return children;
+};
 
 const PublicRoute = ({ children }: { children: ReactElement }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />
+    return <Navigate to="/dashboard" replace />;
   }
-  return children
-}
+  return children;
+};
 
 const App = () => (
   <Routes>
@@ -41,6 +41,6 @@ const App = () => (
     />
     <Route path="*" element={<Navigate to="/dashboard" replace />} />
   </Routes>
-)
+);
 
-export default App
+export default App;

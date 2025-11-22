@@ -1,41 +1,41 @@
-import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip } from 'recharts'
+import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 
-import type { BreakdownDatum } from '../../types/portfolio'
-import { formatCurrency, formatPercent } from '../../utils/format'
+import type { BreakdownDatum } from '../../types/portfolio';
+import { formatCurrency, formatPercent } from '../../utils/format';
 
-const COLORS = ['#8b5cf6', '#ec4899', '#10b981', '#f97316', '#6366f1', '#22d3ee', '#facc15']
+const COLORS = ['#8b5cf6', '#ec4899', '#10b981', '#f97316', '#6366f1', '#22d3ee', '#facc15'];
 
 interface PortfolioDonutProps {
-  data: BreakdownDatum[]
-  totalValue: number
-  mode: 'asset' | 'class'
-  onModeChange: (mode: 'asset' | 'class') => void
-  activeId?: string | null
-  onSelect?: (id: string | null) => void
+  data: BreakdownDatum[];
+  totalValue: number;
+  mode: 'asset' | 'class';
+  onModeChange: (mode: 'asset' | 'class') => void;
+  activeId?: string | null;
+  onSelect?: (id: string | null) => void;
 }
 
 interface TooltipProps {
-  active?: boolean
+  active?: boolean;
   payload?: Array<{
     payload: {
-      label: string
-      value: number
-      allocation: number
-    }
-  }>
+      label: string;
+      value: number;
+      allocation: number;
+    };
+  }>;
 }
 
 const CustomTooltip = ({ active, payload }: TooltipProps) => {
-  if (!active || !payload?.length) return null
-  const entry = payload[0]
+  if (!active || !payload?.length) return null;
+  const entry = payload[0];
   return (
     <div className="rounded-2xl border border-white/10 bg-surface/90 px-4 py-2 text-sm shadow-card">
       <div className="font-semibold text-white">{entry.payload.label}</div>
       <div className="text-muted">{formatCurrency(entry.payload.value)}</div>
       <div className="text-xs text-muted/70">{formatPercent(entry.payload.allocation * 100)}</div>
     </div>
-  )
-}
+  );
+};
 
 const PortfolioDonut = ({
   data,
@@ -46,9 +46,9 @@ const PortfolioDonut = ({
   onSelect,
 }: PortfolioDonutProps) => {
   const handleSliceClick = (entry: BreakdownDatum | null) => {
-    if (!onSelect || !entry) return
-    onSelect(activeId === entry.id ? null : entry.id)
-  }
+    if (!onSelect || !entry) return;
+    onSelect(activeId === entry.id ? null : entry.id);
+  };
 
   return (
     <div className="glass-panel flex flex-col gap-6 p-6" data-testid="portfolio-donut-chart">
@@ -130,7 +130,7 @@ const PortfolioDonut = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PortfolioDonut
+export default PortfolioDonut;

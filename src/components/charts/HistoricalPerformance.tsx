@@ -6,19 +6,19 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts'
+} from 'recharts';
 
-import { timeRangeOptions } from '../../features/portfolio/hooks'
-import type { TimeRange } from '../../features/portfolio/hooks'
-import type { HistoricalPoint } from '../../types/portfolio'
-import { formatCurrency, formatDateLabel } from '../../utils/format'
-import LoadingState from '../common/LoadingState'
+import { timeRangeOptions } from '../../features/portfolio/hooks';
+import type { TimeRange } from '../../features/portfolio/hooks';
+import type { HistoricalPoint } from '../../types/portfolio';
+import { formatCurrency, formatDateLabel } from '../../utils/format';
+import LoadingState from '../common/LoadingState';
 
 interface HistoricalPerformanceProps {
-  series: HistoricalPoint[]
-  range: TimeRange
-  onRangeChange: (range: TimeRange) => void
-  isLoading?: boolean
+  series: HistoricalPoint[];
+  range: TimeRange;
+  onRangeChange: (range: TimeRange) => void;
+  isLoading?: boolean;
 }
 
 const HistoricalPerformance = ({
@@ -28,7 +28,7 @@ const HistoricalPerformance = ({
   isLoading,
 }: HistoricalPerformanceProps) => {
   if (!series.length && isLoading) {
-    return <LoadingState label="Crunching historical performance..." />
+    return <LoadingState label="Crunching historical performance..." />;
   }
 
   return (
@@ -112,7 +112,7 @@ const HistoricalPerformance = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HistoricalPerformance
+export default HistoricalPerformance;
