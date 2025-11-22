@@ -79,18 +79,17 @@ Tests cover:
 - Dashboard functionality
 - Accessibility (WCAG 2.1 AA compliance)
 - Mobile responsive design (iPhone SE viewport)
+- Localisation (language switching and persistence)
 
 ### 🧠 Architecture Notes
 
-- `src/services/mockApi.ts` makes real `fetch` calls to `/api/*` endpoints that are intercepted by MSW in development.
+- `src/services/Api.ts` makes `fetch` calls to `/api/*` endpoints that are intercepted by MSW in development.
 - `src/mocks/handlers.ts` defines MSW request handlers for `/api/assets`, `/api/portfolios`, and `/api/prices` using mock data from `src/data/mockData.ts`.
 - `src/mocks/browser.ts` configures and starts the MSW browser worker (only in development mode).
 - `AuthProvider` stores user session in `localStorage` for the demo login flow.
 - `usePortfolioOverview` composes assets, positions, and prices via TanStack Query and feeds both the donut and positions table.
 - `usePriceHistory` hydrates the historical chart with time-range aware price slices; selections in the donut chart automatically refilter both the table and historical chart.
-- MSW intercepts all API requests in development mode with a configurable delay.
 - Tailwind theme uses CSS `@theme` directive in `src/index.css` for white-label customization.
-- React Icons (`react-icons`) is used for UI icons (e.g., password visibility toggle).
 - `src/i18n.ts` wires i18next + react-i18next with en-GB, fr-FR, and de-DE translations and persists the selected language (`vega-language`) to `localStorage`. The global footer exposes the language selector so users can switch locales at runtime.
 
 ### ✅ Testing & Quality
@@ -113,10 +112,12 @@ npm run format      # Prettier formatting checks
   src/
     components/     # charts, tables, reusable UI
       charts/       # PortfolioDonut, HistoricalPerformance
-      common/       # ErrorState, LoadingState
+      common/       # AppFooter, ErrorState, LoadingState
       tables/       # PositionsTable
     data/           # deterministic asset & price fixtures
     features/       # portfolio hooks + range helpers
+    i18n/           # i18next configuration
+      translations/ # en-GB.json, fr-FR.json, de-DE.json
     mocks/          # MSW handlers and browser setup
     pages/          # login + dashboard routes
     providers/      # auth + react-query setup
@@ -127,12 +128,7 @@ npm run format      # Prettier formatting checks
 
 ### 🔒 Accessibility
 
-The application includes comprehensive accessibility testing using Playwright and axe-core:
-
-- WCAG 2.1 AA compliance checks
-- Keyboard navigation testing
-- Screen reader compatibility
-- Proper ARIA labels and roles
+The application includes comprehensive accessibility testing using Playwright and axe-core.
 
 Run accessibility tests with: `npm run test:a11y`
 
