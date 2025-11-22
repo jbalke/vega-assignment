@@ -51,7 +51,7 @@ const PortfolioDonut = ({
   }
 
   return (
-    <div className="glass-panel flex flex-col gap-6 p-6">
+    <div className="glass-panel flex flex-col gap-6 p-6" data-testid="portfolio-donut-chart">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-sm uppercase tracking-[0.2em] text-muted">Portfolio Value</p>
@@ -72,7 +72,7 @@ const PortfolioDonut = ({
         </div>
       </div>
       <div className="grid gap-6 md:grid-cols-[1.5fr_1fr]">
-        <div className="h-80">
+        <div className="h-80" data-testid="portfolio-donut-chart-container">
           <ResponsiveContainer>
             <PieChart>
               <Pie

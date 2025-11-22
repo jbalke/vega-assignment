@@ -104,7 +104,8 @@ const DashboardPage = () => {
         </div>
       </header>
 
-      <section className="mt-8 space-y-6">
+      <main>
+        <section className="mt-8 space-y-6">
         {error ? (
           <ErrorState onRetry={refetch} message={error.message} />
         ) : isLoading ? (
@@ -134,7 +135,8 @@ const DashboardPage = () => {
             />
           </>
         )}
-      </section>
+        </section>
+      </main>
     </div>
   )
 }

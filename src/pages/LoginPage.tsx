@@ -29,7 +29,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.35),_rgba(7,9,15,1)_70%)] px-4 py-8 text-white">
+    <main className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.35),_rgba(7,9,15,1)_70%)] px-4 py-8 text-white">
       <div className="glass-panel w-full max-w-lg p-8">
         <div className="mb-8">
           <p className="text-sm uppercase tracking-[0.3em] text-muted">Vega</p>
@@ -80,7 +80,7 @@ const LoginPage = () => {
           </button>
         </form>
       </div>
-    </div>
+    </main>
   )
 }
 

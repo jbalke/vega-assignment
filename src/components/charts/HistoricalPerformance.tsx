@@ -32,7 +32,7 @@ const HistoricalPerformance = ({
   }
 
   return (
-    <div className="glass-panel flex flex-col gap-6 p-6">
+    <div className="glass-panel flex flex-col gap-6 p-6" data-testid="historical-performance-chart">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-muted">Performance</p>
@@ -58,7 +58,7 @@ const HistoricalPerformance = ({
           ))}
         </div>
       </div>
-      <div className="h-80">
+      <div className="h-80" data-testid="historical-performance-chart-container">
         {series.length ? (
           <ResponsiveContainer>
             <AreaChart data={series}>

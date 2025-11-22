@@ -40,11 +40,14 @@ const PositionsTable = ({
         ) : null}
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[600px] table-fixed border-collapse text-sm">
+        <table
+          className="w-full min-w-[600px] table-fixed border-collapse text-sm"
+          aria-label="Positions"
+        >
           <thead className="bg-white/5 text-left text-xs uppercase tracking-[0.2em] text-muted">
             <tr>
               {(mode === 'asset' ? assetHeaders : classHeaders).map(header => (
-                <th key={header} className="px-6 py-3 font-medium">
+                <th key={header} scope="col" className="px-6 py-3 font-medium">
                   {header}
                 </th>
               ))}
