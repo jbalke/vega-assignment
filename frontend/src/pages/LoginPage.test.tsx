@@ -38,8 +38,9 @@ describe('LoginPage', () => {
 
     await userEvent.clear(screen.getByLabelText(/email/i))
     await userEvent.type(screen.getByLabelText(/email/i), 'demo@vega.app')
-    await userEvent.clear(screen.getByLabelText(/password/i))
-    await userEvent.type(screen.getByLabelText(/password/i), 'secret')
+    const passwordInput = screen.getByLabelText(/password/i, { selector: 'input' })
+    await userEvent.clear(passwordInput)
+    await userEvent.type(passwordInput, 'secret')
     await userEvent.click(screen.getByRole('button', { name: /access portfolio/i }))
 
     expect(loginMock).toHaveBeenCalledWith('demo@vega.app', 'secret')
