@@ -1,11 +1,6 @@
-import { addMilliseconds } from 'date-fns'
-import { assets, latestPrices, portfolioSnapshot, priceHistory } from '../data/mockData'
 import type { Asset, Portfolio, PricePoint } from '../types/portfolio'
 
-const deepCopy = <T>(value: T): T =>
-  typeof structuredClone !== 'undefined' ? structuredClone(value) : JSON.parse(JSON.stringify(value))
-
-const delay = (ms = 300) => new Promise((resolve) => setTimeout(resolve, ms))
+const API_BASE = '/api'
 
 export interface PriceRequest {
   assets?: string[]
@@ -14,49 +9,44 @@ export interface PriceRequest {
   to?: string
 }
 
-const filterAssets = <T extends { assetId: string }>(collection: T[], assetIds?: string[]) => {
-  if (!assetIds || assetIds.length === 0) return collection
-  return collection.filter((entry) => assetIds.includes(entry.assetId))
-}
-
-const filterByDateRange = <T extends { asOf: string }>(collection: T[], from?: string, to?: string) => {
-  if (!from && !to) return collection
-  const fromDate = from ? new Date(from) : null
-  const toDate = to ? new Date(to) : null
-
-  return collection.filter((entry) => {
-    const current = new Date(entry.asOf)
-    if (fromDate && current < fromDate) return false
-    if (toDate && current > addMilliseconds(toDate, 1)) return false
-    return true
-  })
-}
-
 export async function fetchAssets(): Promise<Asset[]> {
-  await delay()
-  return deepCopy(assets)
+  const response = await fetch(`${API_BASE}/assets`)
+  if (!response.ok) {
+    throw new Error(`Failed to fetch assets: ${response.statusText}`)
+  }
+  return response.json()
 }
 
-export async function fetchPortfolio(): Promise<Portfolio> {
-  await delay()
-  return deepCopy(portfolioSnapshot)
+export async function fetchPortfolio(asOf?: string): Promise<Portfolio> {
+  const url = new URL(`${API_BASE}/portfolios`, window.location.origin)
+  if (asOf) {
+    url.searchParams.set('asOf', asOf)
+  }
+  const response = await fetch(url.toString())
+  if (!response.ok) {
+    throw new Error(`Failed to fetch portfolio: ${response.statusText}`)
+  }
+  return response.json()
 }
 
 export async function fetchPrices(params?: PriceRequest): Promise<PricePoint[]> {
-  await delay()
-  if (!params?.from && !params?.to && !params?.asOf) {
-    return deepCopy(filterAssets(latestPrices, params?.assets))
+  const url = new URL(`${API_BASE}/prices`, window.location.origin)
+  if (params?.assets && params.assets.length > 0) {
+    url.searchParams.set('assets', params.assets.join(','))
   }
-
-  let dataset = priceHistory
-
   if (params?.asOf) {
-    const target = params.asOf.slice(0, 10)
-    dataset = dataset.filter((item) => item.asOf.slice(0, 10) === target)
+    url.searchParams.set('asOf', params.asOf)
   }
-
-  dataset = filterByDateRange(dataset, params?.from, params?.to)
-  dataset = filterAssets(dataset, params?.assets)
-  return deepCopy(dataset)
+  if (params?.from) {
+    url.searchParams.set('from', params.from)
+  }
+  if (params?.to) {
+    url.searchParams.set('to', params.to)
+  }
+  const response = await fetch(url.toString())
+  if (!response.ok) {
+    throw new Error(`Failed to fetch prices: ${response.statusText}`)
+  }
+  return response.json()
 }
 

@@ -6,6 +6,17 @@ import App from './App'
 import './index.css'
 import { AuthProvider } from './providers/AuthProvider'
 
+async function enableMocking() {
+  if (import.meta.env.MODE !== 'development') {
+    return
+  }
+
+  const { worker } = await import('./mocks/browser')
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+  })
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -21,15 +32,17 @@ if (!container) {
   throw new Error('Root container missing in index.html')
 }
 
-createRoot(container).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
-  </StrictMode>,
-)
+enableMocking().then(() => {
+  createRoot(container).render(
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </StrictMode>,
+  )
+})
 

@@ -7,7 +7,7 @@ import { enrichPositions, getBreakdownByAsset, getBreakdownByClass } from '../..
 
 export const usePortfolioOverview = () => {
   const assetsQuery = useQuery({ queryKey: ['assets'], queryFn: fetchAssets })
-  const portfolioQuery = useQuery({ queryKey: ['portfolio'], queryFn: fetchPortfolio })
+  const portfolioQuery = useQuery({ queryKey: ['portfolio'], queryFn: () => fetchPortfolio() })
 
   const assetIds = portfolioQuery.data?.positions.map((position) => position.assetId) ?? []
   const pricesQuery = useQuery({
