@@ -133,5 +133,3 @@ The application includes comprehensive accessibility testing using Playwright an
 - Proper ARIA labels and roles
 
 Run accessibility tests with: `npm run test:a11y`
-
-Feel free to adapt the mock API or styles to point at a real backend—only `services/mockApi.ts` would need to be replaced.
