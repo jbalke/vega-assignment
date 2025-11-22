@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { formatISO, startOfYear, subMonths } from 'date-fns';
 import { useMemo } from 'react';
 
-import { fetchAssets, fetchPortfolio, fetchPrices } from '../../services/mockApi';
+import { fetchAssets, fetchPortfolio, fetchPrices } from '../../services/Api';
 import type { BreakdownDatum, EnrichedPosition, PricePoint } from '../../types/portfolio';
 import { enrichPositions, getBreakdownByAsset, getBreakdownByClass } from '../../utils/portfolio';
 
