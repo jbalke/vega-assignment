@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
 
 interface AuthUser {
   name: string
@@ -33,7 +34,7 @@ const readStoredUser = (): AuthUser | null => {
   }
 }
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(() => readStoredUser())
   const [error, setError] = useState<string | null>(null)
 

@@ -1,8 +1,9 @@
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import type { HistoricalPoint } from '../../types/portfolio'
-import { formatCurrency, formatDateLabel } from '../../utils/format'
+
 import { timeRangeOptions } from '../../features/portfolio/hooks'
 import type { TimeRange } from '../../features/portfolio/hooks'
+import type { HistoricalPoint } from '../../types/portfolio'
+import { formatCurrency, formatDateLabel } from '../../utils/format'
 import LoadingState from '../common/LoadingState'
 
 interface HistoricalPerformanceProps {

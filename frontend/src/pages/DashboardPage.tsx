@@ -1,14 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
-import PortfolioDonut from '../components/charts/PortfolioDonut'
+import { useMemo, useState } from 'react'
+
 import HistoricalPerformance from '../components/charts/HistoricalPerformance'
-import PositionsTable from '../components/tables/PositionsTable'
-import LoadingState from '../components/common/LoadingState'
+import PortfolioDonut from '../components/charts/PortfolioDonut'
 import ErrorState from '../components/common/ErrorState'
+import LoadingState from '../components/common/LoadingState'
+import PositionsTable from '../components/tables/PositionsTable'
 import { usePortfolioOverview, usePriceHistory } from '../features/portfolio/hooks'
 import type { TimeRange } from '../features/portfolio/hooks'
-import { buildHistoricalSeries } from '../utils/portfolio'
 import { useAuth } from '../providers/AuthProvider'
 import { formatRelativeTime } from '../utils/format'
+import { buildHistoricalSeries } from '../utils/portfolio'
 
 const DashboardPage = () => {
   const { positions, totalValue, breakdownByAsset, breakdownByClass, isLoading, error, refetch, lastUpdated } =
@@ -19,9 +20,10 @@ const DashboardPage = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [range, setRange] = useState<TimeRange>('3M')
 
-  useEffect(() => {
+  const handleModeChange = (newMode: 'asset' | 'class') => {
+    setMode(newMode)
     setSelectedId(null)
-  }, [mode])
+  }
 
   const activeAssetIds = useMemo(() => {
     if (!positions.length) return []
@@ -103,7 +105,7 @@ const DashboardPage = () => {
               data={mode === 'asset' ? breakdownByAsset : breakdownByClass}
               totalValue={totalValue}
               mode={mode}
-              onModeChange={setMode}
+              onModeChange={handleModeChange}
               activeId={selectedId}
               onSelect={handleSelection}
             />

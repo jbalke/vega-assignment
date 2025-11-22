@@ -1,5 +1,6 @@
-import { http, HttpResponse, delay } from 'msw'
 import { addMilliseconds } from 'date-fns'
+import { http, HttpResponse, delay } from 'msw'
+
 import { assets, latestPrices, portfolioSnapshot, priceHistory } from '../data/mockData'
 
 const API_BASE = '/api'

@@ -1,4 +1,5 @@
 import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip } from 'recharts'
+
 import type { BreakdownDatum } from '../../types/portfolio'
 import { formatCurrency, formatPercent } from '../../utils/format'
 
@@ -13,7 +14,18 @@ interface PortfolioDonutProps {
   onSelect?: (id: string | null) => void
 }
 
-const CustomTooltip = ({ active, payload }: any) => {
+interface TooltipProps {
+  active?: boolean
+  payload?: Array<{
+    payload: {
+      label: string
+      value: number
+      allocation: number
+    }
+  }>
+}
+
+const CustomTooltip = ({ active, payload }: TooltipProps) => {
   if (!active || !payload?.length) return null
   const entry = payload[0]
   return (

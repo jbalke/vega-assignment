@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { buildHistoricalSeries, enrichPositions, getBreakdownByAsset, getBreakdownByClass } from './portfolio'
+
 import type { Asset, PricePoint } from '../types/portfolio'
+
+import { buildHistoricalSeries, enrichPositions, getBreakdownByAsset, getBreakdownByClass } from './portfolio'
 
 const assets: Asset[] = [
   { id: 'BTC', symbol: 'BTC', name: 'Bitcoin', class: 'crypto', currency: 'USD' },

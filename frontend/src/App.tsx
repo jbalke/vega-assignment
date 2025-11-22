@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+
 import DashboardPage from './pages/DashboardPage'
 import LoginPage from './pages/LoginPage'
 import { useAuth } from './providers/AuthProvider'
