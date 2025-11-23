@@ -42,7 +42,7 @@ export default [
     rules: {
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
+      ...reactHooks.configs['recommended-latest'].rules,
       ...typescript.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
       'no-undef': 'off',
