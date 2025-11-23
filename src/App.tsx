@@ -1,9 +1,12 @@
 import type { ReactElement } from 'react';
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import DashboardPage from './pages/DashboardPage';
-import LoginPage from './pages/LoginPage';
+import LoadingState from './components/common/LoadingState';
 import { useAuth } from './providers/useAuth';
+
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 
 const ProtectedRoute = ({ children }: { children: ReactElement }) => {
   const { isAuthenticated } = useAuth();
@@ -22,25 +25,27 @@ const PublicRoute = ({ children }: { children: ReactElement }) => {
 };
 
 const App = () => (
-  <Routes>
-    <Route
-      path="/login"
-      element={
-        <PublicRoute>
-          <LoginPage />
-        </PublicRoute>
-      }
-    />
-    <Route
-      path="/dashboard"
-      element={
-        <ProtectedRoute>
-          <DashboardPage />
-        </ProtectedRoute>
-      }
-    />
-    <Route path="*" element={<Navigate to="/dashboard" replace />} />
-  </Routes>
+  <Suspense fallback={<LoadingState />}>
+    <Routes>
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
+  </Suspense>
 );
 
 export default App;
