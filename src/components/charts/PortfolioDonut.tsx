@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip } from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 import type { BreakdownDatum } from '../../types/portfolio';
 import { formatCurrency, formatPercent } from '../../utils/format';
@@ -77,8 +77,8 @@ const PortfolioDonut = ({
         </div>
       </div>
       <div className="grid gap-6 md:grid-cols-[1.5fr_1fr]">
-        <div className="h-80" data-testid="portfolio-donut-chart-container">
-          <ResponsiveContainer>
+        <div className="h-80 w-full" data-testid="portfolio-donut-chart-container">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <PieChart>
               <Pie
                 data={data}

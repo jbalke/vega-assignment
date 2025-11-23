@@ -1,5 +1,5 @@
 import { addMilliseconds } from 'date-fns';
-import { http, HttpResponse, delay } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 
 import { assets, latestPrices, portfolioSnapshot, priceHistory } from '../data/mockData';
 
@@ -33,49 +33,81 @@ const filterByDateRange = <T extends { asOf: string }>(
   });
 };
 
-export const handlers = [
-  http.get(`${API_BASE}/assets`, async () => {
-    await delay(RESPONSE_DELAY_MS);
-    return HttpResponse.json(deepCopy(assets));
-  }),
-
-  http.get(`${API_BASE}/portfolios`, async ({ request }) => {
-    await delay(RESPONSE_DELAY_MS);
-    const url = new URL(request.url);
-    const asOf = url.searchParams.get('asOf');
-
-    let portfolio = deepCopy(portfolioSnapshot);
-    if (asOf) {
-      portfolio.asOf = asOf;
-      portfolio.positions = portfolio.positions.map(pos => ({ ...pos, asOf }));
+const createErrorResponse = (message: string) =>
+  HttpResponse.json(
+    { message },
+    {
+      status: 500,
+      statusText: 'Internal Server Error',
     }
+  );
 
-    return HttpResponse.json(portfolio);
-  }),
+const assetsHandler = http.get(`${API_BASE}/assets`, async () => {
+  await delay(RESPONSE_DELAY_MS);
+  return HttpResponse.json(deepCopy(assets));
+});
 
-  http.get(`${API_BASE}/prices`, async ({ request }) => {
-    await delay(RESPONSE_DELAY_MS);
-    const url = new URL(request.url);
-    const assetParam = url.searchParams.get('assets');
-    const asOf = url.searchParams.get('asOf');
-    const from = url.searchParams.get('from');
-    const to = url.searchParams.get('to');
+const portfolioHandler = http.get(`${API_BASE}/portfolios`, async ({ request }) => {
+  await delay(RESPONSE_DELAY_MS);
+  const url = new URL(request.url);
+  const asOf = url.searchParams.get('asOf');
 
-    const assetIds = assetParam ? assetParam.split(',').map(a => a.trim()) : undefined;
+  let portfolio = deepCopy(portfolioSnapshot);
+  if (asOf) {
+    portfolio.asOf = asOf;
+    portfolio.positions = portfolio.positions.map(pos => ({ ...pos, asOf }));
+  }
 
-    if (!from && !to && !asOf) {
-      return HttpResponse.json(deepCopy(filterAssets(latestPrices, assetIds)));
-    }
+  return HttpResponse.json(portfolio);
+});
 
-    let dataset = priceHistory;
+const pricesHandler = http.get(`${API_BASE}/prices`, async ({ request }) => {
+  await delay(RESPONSE_DELAY_MS);
+  const url = new URL(request.url);
+  const assetParam = url.searchParams.get('assets');
+  const asOf = url.searchParams.get('asOf');
+  const from = url.searchParams.get('from');
+  const to = url.searchParams.get('to');
 
-    if (asOf) {
-      const target = asOf.slice(0, 10);
-      dataset = dataset.filter(item => item.asOf.slice(0, 10) === target);
-    }
+  const assetIds = assetParam ? assetParam.split(',').map(a => a.trim()) : undefined;
 
-    dataset = filterByDateRange(dataset, from ?? undefined, to ?? undefined);
-    dataset = filterAssets(dataset, assetIds);
-    return HttpResponse.json(deepCopy(dataset));
-  }),
-];
+  if (!from && !to && !asOf) {
+    return HttpResponse.json(deepCopy(filterAssets(latestPrices, assetIds)));
+  }
+
+  let dataset = priceHistory;
+
+  if (asOf) {
+    const target = asOf.slice(0, 10);
+    dataset = dataset.filter(item => item.asOf.slice(0, 10) === target);
+  }
+
+  dataset = filterByDateRange(dataset, from ?? undefined, to ?? undefined);
+  dataset = filterAssets(dataset, assetIds);
+  return HttpResponse.json(deepCopy(dataset));
+});
+
+export const successHandlers = [assetsHandler, portfolioHandler, pricesHandler];
+
+const assetsErrorHandler = http.get(`${API_BASE}/assets`, async () => {
+  await delay(RESPONSE_DELAY_MS);
+  return createErrorResponse('Failed to fetch assets');
+});
+
+const portfolioErrorHandler = http.get(`${API_BASE}/portfolios`, async () => {
+  await delay(RESPONSE_DELAY_MS);
+  return createErrorResponse('Failed to fetch portfolio');
+});
+
+const pricesErrorHandler = http.get(`${API_BASE}/prices`, async () => {
+  await delay(RESPONSE_DELAY_MS);
+  return createErrorResponse('Failed to fetch prices');
+});
+
+export const errorHandlers = {
+  assets: assetsErrorHandler,
+  portfolios: portfolioErrorHandler,
+  prices: pricesErrorHandler,
+} as const;
+
+export const handlers = successHandlers;

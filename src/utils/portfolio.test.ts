@@ -62,4 +62,54 @@ describe('portfolio utilities', () => {
       { date: '2025-02-01', value: 55000 },
     ]);
   });
+
+  it('returns no enriched positions when total value cannot be determined', () => {
+    const result = enrichPositions({ positions, assets, prices: [] });
+    expect(result).toEqual([]);
+  });
+
+  it('falls back to safe asset metadata when not provided', () => {
+    const result = enrichPositions({
+      positions: [{ id: 'alt-1', assetId: 'DOGE', quantity: 10 }],
+      assets: [],
+      prices: [{ assetId: 'DOGE', asOf: '2025-01-01', price: 0.5 }],
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject({
+      symbol: 'DOGE',
+      name: 'DOGE',
+      class: 'cash',
+      value: 5,
+    });
+  });
+
+  it('returns empty historical series when the asset filter removes all positions', () => {
+    const enriched = enrichPositions({ positions, assets, prices });
+    const series = buildHistoricalSeries({
+      pricePoints: prices,
+      positions: enriched,
+      assetFilter: ['UNKNOWN'],
+    });
+
+    expect(series).toEqual([]);
+  });
+
+  it('ignores price points for assets without tracked quantities', () => {
+    const enriched = enrichPositions({ positions, assets, prices });
+    const series = buildHistoricalSeries({
+      pricePoints: [
+        ...prices,
+        { assetId: 'NOT_TRACKED', asOf: '2025-01-01', price: 999 },
+        { assetId: 'BTC', asOf: '2025-02-01', price: 51000 },
+      ],
+      positions: enriched,
+      assetFilter: ['BTC'],
+    });
+
+    expect(series).toEqual([
+      { date: '2025-01-01', value: 50000 },
+      { date: '2025-02-01', value: 51000 },
+    ]);
+  });
 });

@@ -9,8 +9,8 @@ import {
   YAxis,
 } from 'recharts';
 
-import { timeRangeOptions } from '../../features/portfolio/hooks';
 import type { TimeRange } from '../../features/portfolio/hooks';
+import { timeRangeOptions } from '../../features/portfolio/hooks';
 import type { HistoricalPoint } from '../../types/portfolio';
 import { formatCurrency, formatDateLabel } from '../../utils/format';
 import LoadingState from '../common/LoadingState';
@@ -63,9 +63,9 @@ const HistoricalPerformance = ({
           ))}
         </div>
       </div>
-      <div className="h-80" data-testid="historical-performance-chart-container">
+      <div className="h-80 w-full" data-testid="historical-performance-chart-container">
         {series.length ? (
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <AreaChart data={series}>
               <defs>
                 <linearGradient id="performanceGradient" x1="0" y1="0" x2="0" y2="1">

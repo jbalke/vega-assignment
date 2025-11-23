@@ -2,6 +2,7 @@ import type { Locale } from 'date-fns';
 import { format, formatDistanceToNowStrict, parseISO } from 'date-fns';
 import { de, enGB, fr } from 'date-fns/locale';
 import i18next from 'i18next';
+
 import type { SupportedLngs } from '../i18n/i18n';
 
 const localeMap: Record<SupportedLngs, Locale> = {
