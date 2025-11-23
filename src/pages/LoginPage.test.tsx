@@ -91,6 +91,26 @@ describe('LoginPage', () => {
     expect(screen.getByText(/invalid email or password/i)).toBeInTheDocument();
   });
 
+  it('validates inputs before submission', async () => {
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
+
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/password/i, { selector: 'input' });
+
+    await userEvent.clear(emailInput);
+    await userEvent.type(emailInput, 'invalid-email');
+    await userEvent.clear(passwordInput);
+    await userEvent.click(screen.getByRole('button', { name: /access portfolio/i }));
+
+    expect(await screen.findByText(/enter a valid email address/i)).toBeInTheDocument();
+    expect(await screen.findByText(/password is required/i)).toBeInTheDocument();
+    expect(loginMock).not.toHaveBeenCalled();
+  });
+
   it('switches languages through the footer selector', async () => {
     render(
       <MemoryRouter>

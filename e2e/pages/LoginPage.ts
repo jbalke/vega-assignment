@@ -9,6 +9,8 @@ export class LoginPage {
   readonly submitButton: Locator;
   readonly errorMessage: Locator;
   readonly languageSelect: Locator;
+  readonly emailError: Locator;
+  readonly passwordError: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -23,6 +25,8 @@ export class LoginPage {
       /invalid email or password|e-mail ou mot de passe invalide|ungültige e-mail oder ungültiges passwort/i
     );
     this.languageSelect = page.getByTestId('language-select');
+    this.emailError = page.getByTestId('email-error');
+    this.passwordError = page.getByTestId('password-error');
   }
 
   async goto() {

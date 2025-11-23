@@ -25,7 +25,7 @@ describe('AppErrorBoundary', () => {
       </AppErrorBoundary>
     );
 
-    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+    expect(screen.getByText(/states\.errortitle/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /retry/i }));
     expect(onReset).toHaveBeenCalled();
   });

@@ -10,6 +10,11 @@
     "submitting": "Anmeldung läuft…",
     "errors": {
       "invalidCredentials": "Ungültige E-Mail oder ungültiges Passwort"
+    },
+    "validation": {
+      "emailRequired": "E-Mail ist erforderlich",
+      "emailInvalid": "Bitte eine gültige E-Mail-Adresse eingeben",
+      "passwordRequired": "Passwort ist erforderlich"
     }
   },
   "dashboard": {
