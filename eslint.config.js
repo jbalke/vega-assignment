@@ -45,6 +45,7 @@ export default [
       ...reactHooks.configs.recommended.rules,
       ...typescript.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
+      'no-undef': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/prop-types': 'off',
       '@typescript-eslint/no-unused-vars': [
@@ -107,6 +108,7 @@ export default [
   },
   {
     files: ['e2e/**/*.{js,ts}'],
+    ignores: ['e2e/seed.spec.ts'],
     plugins: {
       playwright,
     },
