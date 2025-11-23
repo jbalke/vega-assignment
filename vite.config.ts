@@ -11,6 +11,40 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: id => {
+          // Split node_modules into vendor chunks
+          if (id.includes('node_modules')) {
+            // Recharts is large, split it into its own chunk
+            if (id.includes('recharts')) {
+              return 'recharts';
+            }
+            // React and React DOM together
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            // React Router
+            if (id.includes('react-router')) {
+              return 'router';
+            }
+            // TanStack Query
+            if (id.includes('@tanstack/react-query')) {
+              return 'react-query';
+            }
+            // i18next and related
+            if (id.includes('i18next') || id.includes('react-i18next')) {
+              return 'i18n';
+            }
+            // All other node_modules
+            return 'vendor';
+          }
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // Increase limit since we're splitting chunks
+  },
   test: {
     globals: true,
     environment: 'jsdom',

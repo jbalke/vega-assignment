@@ -5,6 +5,7 @@ import { renderApp } from '../utils/test/renderApp';
 
 const renderDashboard = async () => {
   const utils = renderApp({ initialEntries: ['/dashboard'] });
+  // Wait for lazy-loaded DashboardPage to resolve and data to load
   await screen.findByText(/6 rows/i);
   await screen.findByTestId('historical-performance-chart');
   return utils;
