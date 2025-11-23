@@ -12,7 +12,6 @@ const AppErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => (
   <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4 py-10 text-white">
     <div className="w-full max-w-xl">
       <ErrorState
-        title="Something went wrong"
         message={error?.message}
         onRetry={() => {
           resetErrorBoundary();

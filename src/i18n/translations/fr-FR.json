@@ -10,6 +10,11 @@
     "submitting": "Connexion en cours…",
     "errors": {
       "invalidCredentials": "E-mail ou mot de passe invalide"
+    },
+    "validation": {
+      "emailRequired": "L’e-mail est requis",
+      "emailInvalid": "Merci de saisir une adresse e-mail valide",
+      "passwordRequired": "Le mot de passe est requis"
     }
   },
   "dashboard": {

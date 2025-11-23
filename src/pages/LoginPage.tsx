@@ -1,9 +1,13 @@
-import { useState, type FormEvent } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { HiEye, HiEyeSlash } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
 import AppFooter from '../components/common/AppFooter';
+import TextField from '../components/common/TextField';
 import { useAuth } from '../providers/useAuth';
 
 const DEMO_EMAIL = 'investor@vega.app';
@@ -13,26 +17,46 @@ const LoginPage = () => {
   const { login, error } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSubmitting(true);
+  const validationSchema = useMemo(
+    () =>
+      z.object({
+        email: z
+          .string()
+          .min(1, { message: t('auth.validation.emailRequired') })
+          .email({ message: t('auth.validation.emailInvalid') }),
+        password: z.string().min(1, { message: t('auth.validation.passwordRequired') }),
+      }),
+    [t]
+  );
+
+  type LoginFormValues = z.infer<typeof validationSchema>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(validationSchema),
+    defaultValues: {
+      email: DEMO_EMAIL,
+      password: DEMO_PASSWORD,
+    },
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+  });
+
+  const onSubmit = handleSubmit(async ({ email, password }) => {
     setLocalError(null);
     try {
-      const formData = new FormData(event.currentTarget);
-      const email = (formData.get('email') as string).trim();
-      const password = formData.get('password') as string;
-      await login(email, password);
+      await login(email.trim(), password);
       navigate('/dashboard', { replace: true });
     } catch (submitError) {
       setLocalError((submitError as Error).message);
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  });
 
   const resolvedErrorKey = error ?? localError;
   const resolvedErrorMessage = resolvedErrorKey
@@ -50,31 +74,35 @@ const LoginPage = () => {
               {t('auth.subtitle', { email: DEMO_EMAIL, password: DEMO_PASSWORD })}
             </p>
           </div>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-muted">
-              {t('auth.email')}
-              <input
-                name="email"
-                type="email"
-                defaultValue={DEMO_EMAIL}
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white focus:border-accent focus:outline-none"
-                required
-              />
-            </label>
-            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-muted">
-              {t('auth.password')}
-              <div className="relative mt-2">
-                <input
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  defaultValue={DEMO_PASSWORD}
-                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 pr-12 text-base text-white focus:border-accent focus:outline-none"
-                  required
-                />
+          <form className="space-y-6" onSubmit={onSubmit} noValidate>
+            <TextField
+              id="email"
+              label={t('auth.email')}
+              autoComplete="email"
+              error={errors.email?.message}
+              inputProps={{
+                type: 'email',
+                ...register('email'),
+                'aria-invalid': Boolean(errors.email),
+                'aria-describedby': errors.email ? 'email-error' : undefined,
+              }}
+            />
+            <TextField
+              id="password"
+              label={t('auth.password')}
+              autoComplete="current-password"
+              error={errors.password?.message}
+              inputProps={{
+                type: showPassword ? 'text' : 'password',
+                ...register('password'),
+                'aria-invalid': Boolean(errors.password),
+                'aria-describedby': errors.password ? 'password-error' : undefined,
+              }}
+              rightAdornment={
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition hover:text-white"
+                  className="text-muted transition hover:text-white"
                   aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
                 >
                   {showPassword ? (
@@ -83,9 +111,13 @@ const LoginPage = () => {
                     <HiEye className="h-5 w-5" />
                   )}
                 </button>
-              </div>
-            </label>
-            {resolvedErrorMessage && <p className="text-sm text-danger">{resolvedErrorMessage}</p>}
+              }
+            />
+            {resolvedErrorMessage && (
+              <p className="text-sm text-danger" role="alert">
+                {resolvedErrorMessage}
+              </p>
+            )}
             <button
               type="submit"
               disabled={isSubmitting}

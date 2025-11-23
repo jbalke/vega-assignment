@@ -10,6 +10,11 @@
     "submitting": "Signing in…",
     "errors": {
       "invalidCredentials": "Invalid email or password"
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Password is required"
     }
   },
   "dashboard": {
