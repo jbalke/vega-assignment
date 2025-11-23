@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
+import AppErrorBoundary from './components/common/AppErrorBoundary';
 import './i18n/i18n';
 import './index.css';
 import { AuthProvider } from './providers/AuthProvider';
@@ -40,7 +41,14 @@ enableMocking().then(() => {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <AuthProvider>
-            <App />
+            <AppErrorBoundary
+              onReset={() => {
+                queryClient.clear();
+                window.location.reload();
+              }}
+            >
+              <App />
+            </AppErrorBoundary>
           </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>
