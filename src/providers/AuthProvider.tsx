@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 import { AuthContext, type AuthUser } from './AuthContext';
 
-const AUTH_STORAGE_KEY = 'vega-auth-user';
+export const AUTH_STORAGE_KEY = 'vega-auth-user';
 
 const allowedUser: AuthUser & { password: string } = {
   name: 'Ava Patel',

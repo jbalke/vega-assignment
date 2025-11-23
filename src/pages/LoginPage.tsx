@@ -42,59 +42,59 @@ const LoginPage = () => {
   return (
     <div className="flex min-h-screen flex-col bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.35),_rgba(7,9,15,1)_70%)] px-4 py-8 text-white">
       <main className="flex flex-1 items-center justify-center">
-      <div className="glass-panel w-full max-w-lg p-8">
-        <div className="mb-8">
-          <p className="text-sm uppercase tracking-[0.3em] text-muted">Vega</p>
+        <div className="glass-panel w-full max-w-lg p-8">
+          <div className="mb-8">
+            <p className="text-sm uppercase tracking-[0.3em] text-muted">Vega</p>
             <h1 className="mt-2 text-3xl font-semibold">{t('auth.title')}</h1>
-          <p className="mt-2 text-sm text-muted">
+            <p className="mt-2 text-sm text-muted">
               {t('auth.subtitle', { email: DEMO_EMAIL, password: DEMO_PASSWORD })}
-          </p>
-        </div>
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-muted">
+            </p>
+          </div>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-muted">
               {t('auth.email')}
-            <input
-                name="email"
-              type="email"
-                defaultValue={DEMO_EMAIL}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white focus:border-accent focus:outline-none"
-              required
-            />
-          </label>
-          <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-muted">
-              {t('auth.password')}
-            <div className="relative mt-2">
               <input
-                  name="password"
-                type={showPassword ? 'text' : 'password'}
-                  defaultValue={DEMO_PASSWORD}
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 pr-12 text-base text-white focus:border-accent focus:outline-none"
+                name="email"
+                type="email"
+                defaultValue={DEMO_EMAIL}
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white focus:border-accent focus:outline-none"
                 required
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition hover:text-white"
+            </label>
+            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-muted">
+              {t('auth.password')}
+              <div className="relative mt-2">
+                <input
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  defaultValue={DEMO_PASSWORD}
+                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 pr-12 text-base text-white focus:border-accent focus:outline-none"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition hover:text-white"
                   aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
-              >
+                >
                   {showPassword ? (
                     <HiEyeSlash className="h-5 w-5" />
                   ) : (
                     <HiEye className="h-5 w-5" />
                   )}
-              </button>
-            </div>
-          </label>
+                </button>
+              </div>
+            </label>
             {resolvedErrorMessage && <p className="text-sm text-danger">{resolvedErrorMessage}</p>}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-2xl bg-accent px-4 py-3 text-base font-semibold text-white transition hover:bg-accent/80 disabled:cursor-not-allowed disabled:opacity-60"
-          >
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full rounded-2xl bg-accent px-4 py-3 text-base font-semibold text-white transition hover:bg-accent/80 disabled:cursor-not-allowed disabled:opacity-60"
+            >
               {isSubmitting ? t('auth.submitting') : t('auth.submit')}
-          </button>
-        </form>
-      </div>
+            </button>
+          </form>
+        </div>
       </main>
       <AppFooter />
     </div>
