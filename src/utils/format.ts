@@ -1,16 +1,17 @@
-import { format, formatDistanceToNowStrict, parseISO } from 'date-fns';
 import type { Locale } from 'date-fns';
+import { format, formatDistanceToNowStrict, parseISO } from 'date-fns';
 import { de, enGB, fr } from 'date-fns/locale';
 import i18next from 'i18next';
+import type { SupportedLngs } from '../i18n/i18n';
 
-const localeMap: Record<string, Locale> = {
+const localeMap: Record<SupportedLngs, Locale> = {
   'en-GB': enGB,
   'fr-FR': fr,
   'de-DE': de,
 };
 
-const resolveLanguage = () => i18next.language ?? 'en-GB';
-const resolveLocale = () => localeMap[resolveLanguage()] ?? enGB;
+const resolveLanguage = (): SupportedLngs => (i18next.language as SupportedLngs) ?? 'en-GB';
+const resolveLocale = (): Locale => localeMap[resolveLanguage()] ?? enGB;
 
 export const formatCurrency = (value: number, currency = 'USD') =>
   new Intl.NumberFormat(resolveLanguage(), {
