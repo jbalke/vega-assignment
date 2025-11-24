@@ -1,4 +1,4 @@
-import { addWeeks, formatISO } from 'date-fns';
+import { addWeeks, differenceInWeeks, formatISO } from 'date-fns';
 
 import type { Asset, Portfolio, PricePoint } from '../types/portfolio';
 
@@ -72,7 +72,10 @@ const assetBlueprints: AssetBlueprint[] = [
 ];
 
 const startDate = new Date('2024-12-01T00:00:00Z');
-const timeline = Array.from({ length: 40 }, (_, index) =>
+const today = new Date();
+// Calculate weeks from start date to today, add 1 to ensure we include today's week
+const weeksToToday = differenceInWeeks(today, startDate) + 1;
+const timeline = Array.from({ length: weeksToToday }, (_, index) =>
   formatISO(addWeeks(startDate, index), { representation: 'complete' })
 );
 

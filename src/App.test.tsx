@@ -21,7 +21,9 @@ describe('App happy paths', () => {
     await user.click(submitButton);
 
     // Wait for lazy-loaded DashboardPage to resolve after navigation
-    expect(await screen.findByRole('button', { name: /logout/i }, { timeout: 10000 })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: /logout/i }, { timeout: 10000 })
+    ).toBeInTheDocument();
     expect(await screen.findByRole('heading', { name: /ava patel/i })).toBeInTheDocument();
   });
 
