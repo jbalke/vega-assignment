@@ -16,10 +16,14 @@ describe('App happy paths', () => {
       isAuthenticated: false,
     });
 
+    // Wait for lazy-loaded LoginPage to resolve (findByRole will wait for Suspense to resolve)
     const submitButton = await screen.findByRole('button', { name: /access portfolio/i });
     await user.click(submitButton);
 
-    expect(await screen.findByRole('button', { name: /logout/i })).toBeInTheDocument();
+    // Wait for lazy-loaded DashboardPage to resolve after navigation
+    expect(
+      await screen.findByRole('button', { name: /logout/i }, { timeout: 10000 })
+    ).toBeInTheDocument();
     expect(await screen.findByRole('heading', { name: /ava patel/i })).toBeInTheDocument();
   });
 

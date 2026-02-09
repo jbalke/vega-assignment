@@ -1,7 +1,14 @@
 import '@testing-library/jest-dom/vitest';
-import { afterAll, afterEach, beforeAll } from 'vitest';
+import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 
 import { server } from './mocks/server';
+
+// Preload lazy-loaded components for tests
+// This ensures React.lazy() resolves synchronously in test environment
+beforeAll(async () => {
+  // Preload page components so lazy loading works in tests
+  await Promise.all([import('./pages/LoginPage'), import('./pages/DashboardPage')]);
+});
 
 beforeAll(() => {
   // Mock ResizeObserver for Recharts ResponsiveContainer
